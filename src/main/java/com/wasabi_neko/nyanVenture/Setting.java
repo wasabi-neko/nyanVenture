@@ -1,5 +1,7 @@
 package com.wasabi_neko.nyanVenture;
 
+import java.util.Map;
+
 public class Setting {
     public static final long FIXUPDATE_RATE = 10;
 
@@ -8,7 +10,6 @@ public class Setting {
     public static final long GREAT_TIME = 50;
     public static final long PERFECT_TIME = 0;
 
-    // public static final long MISS_SCORE = 0;
-    // public static final long GREAT_SCORE = 50;
-    // public static final long PERFECT_SCORE = 100;
+    public static final String IMG_NODE0_PATH = "nodes/node0.png";
+    public static final String IMG_NODE1_PATH = "nodes/node1.png";
 }

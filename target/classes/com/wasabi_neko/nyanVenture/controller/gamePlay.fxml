@@ -1,16 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wasabi_neko.nyanVenture.controller.GamePlay">
+<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" onKeyReleased="#onKeyRelease" prefHeight="900.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wasabi_neko.nyanVenture.controller.GamePlay">
    <children>
-      <Pane layoutX="540.0" layoutY="250.0" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: blue;" />
-      <Pane layoutX="540.0" layoutY="150.0" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: black;" />
-      <Pane layoutX="100.0" layoutY="250.0" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: blue;" />
-      <Pane layoutX="100.0" layoutY="150.0" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: black;" />
-      <Pane fx:id="holdPane" disable="true" onKeyPressed="#keyHandler" prefHeight="400.0" prefWidth="600.0" />
-      <Pane fx:id="tapPane" disable="true" onKeyPressed="#keyHandler" prefHeight="400.0" prefWidth="600.0" />
-      <Button fx:id="btEsc" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#onEscPressed" text="ESC" />
+      <Pane fx:id="gamePlayPane" prefHeight="900.0" prefWidth="1440.0">
+         <children>
+            <Pane fx:id="startLowerPane" layoutX="1340.0" layoutY="650.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: blue;" />
+            <Pane fx:id="startUpperPane" layoutX="1340.0" layoutY="400.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: black;" />
+            <Pane fx:id="endPane" layoutX="200.0" layoutY="650.0" prefHeight="100.0" prefWidth="10.0" style="-fx-background-color: blue;" />
+            <Pane layoutX="200.0" layoutY="400.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: black;" />
+            <Pane fx:id="popoutPane" layoutX="200.0" layoutY="500.0" prefHeight="200.0" prefWidth="300.0" />
+            <Pane fx:id="missPane" layoutY="600.0" onKeyPressed="#keyHandler" prefHeight="200.0" prefWidth="600.0" />
+            <Pane fx:id="holdPane" disable="true" onKeyPressed="#keyHandler" prefHeight="900.0" prefWidth="1440.0" />
+            <Pane fx:id="tapPane" prefHeight="900.0" prefWidth="1440.0" />
+            <Button fx:id="btEsc" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#onEscPressed" text="ESC">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane fx:id="finishPane" disable="true" prefHeight="900.0" prefWidth="1440.0" visible="false">
+         <children>
+            <Label layoutX="150.0" layoutY="500.0" text="Perfect : {%d}">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </Label>
+            <Label layoutX="150.0" layoutY="600.0" text="Great : {%d}">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </Label>
+            <Label layoutX="150.0" layoutY="700.0" text="Miss :  {%d}">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </Label>
+            <Label layoutX="500.0" layoutY="500.0" text="Score : {%d}">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </Label>
+            <Label layoutX="500.0" layoutY="600.0" text="Accuracy : {%d}">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </Label>
+            <Button layoutX="1150.0" layoutY="750.0" mnemonicParsing="false" onAction="#onAgainPressed" text="Again">
+               <font>
+                  <Font size="60.0" />
+               </font>
+            </Button>
+            <Button layoutX="850.0" layoutY="750.0" mnemonicParsing="false" onAction="#onBackPressed" text="Back">
+               <font>
+                  <Font size="60.0" />
+               </font>
+            </Button>
+         </children></Pane>
+      <Pane fx:id="pausePane" disable="true" prefHeight="900.0" prefWidth="1440.0" visible="false">
+         <children>
+            <Pane opacity="0.3" prefHeight="900.0" prefWidth="1440.0" style="-fx-background-color: black;" />
+            <Pane layoutX="420.0" layoutY="200.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#startGame" text="backGame">
+                     <font>
+                        <Font size="57.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="273.0" layoutY="40.0" mnemonicParsing="false" onAction="#onBackPressed" text="back to menu">
+                     <font>
+                        <Font size="60.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
    </children>
 </Pane>

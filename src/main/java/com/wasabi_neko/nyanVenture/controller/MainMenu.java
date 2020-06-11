@@ -33,6 +33,7 @@ public class MainMenu implements Initializable {
 
     @FXML
     private void onPlayPressed() throws IOException {
+        // TODO: add loading
         App.sceneController.changeScene("gamePlay");
     }
 

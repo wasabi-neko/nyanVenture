@@ -24,6 +24,14 @@
             "mainClass": "com.wasabi_neko.nyanVenture.App",
             "projectName": "nyanVenture",
             "vmArgs": "--module-path $PATH_TO_FX --add-modules javafx.controls,javafx.fxml",
+        },
+        {
+            "type": "java",
+            "name": "tempMain",
+            "request": "launch",
+            "mainClass": "com.wasabi_neko.nyanVenture.tool.TempMain",
+            "projectName": "nyanVenture",
+            "vmArgs": "--module-path $PATH_TO_FX --add-modules javafx.controls,javafx.fxml",
         }
     ]
 }
