@@ -10,6 +10,7 @@ public class GameManager {
     public Sheet  sheet;
     public Player player;
     public Score score;
+    public Popouts popouts;
     
     private long startTime = 0;
     private long timePassed = 0;
@@ -17,13 +18,15 @@ public class GameManager {
 
     private Pane tapPane, holdPane;
     private Pane tapPosPane, lowerPosPane, upperPosPane;
+    private Pane popPane;
 
-    public GameManager(Pane _tapPane, Pane _holdPane, Pane _tapPosPane, Pane _lowerPosPane, Pane _upperPosPane) {
+    public GameManager(Pane _tapPane, Pane _holdPane, Pane _tapPosPane, Pane _lowerPosPane, Pane _upperPosPane, Pane _popPane) {
         this.tapPane = _tapPane;
         this.holdPane = _holdPane;
         this.tapPosPane = _tapPosPane;
         this.lowerPosPane = _lowerPosPane;
         this.upperPosPane = _upperPosPane;
+        this.popPane = _popPane;
     }
 
     // -------------------------------------------------------------------------
@@ -53,8 +56,11 @@ public class GameManager {
         try {
             SheetData data = FileManager.getSheetData(sheetIndex);
             this.sheet = new Sheet(this.tapPane, this.holdPane, this.upperPosPane, this.lowerPosPane, this.tapPosPane, data);
-
             this.sheet.sheetData.sort();
+
+            this.popouts = new Popouts(popPane);
+
+            // player
             return true;
         } catch (Exception e) {
             System.out.println(e);
@@ -79,6 +85,7 @@ public class GameManager {
     public void pauseGame() {
         this.gameStatus = 2;
         this.timePassed = System.currentTimeMillis() - this.startTime;
+        this.sheet.pause();
     }
 
     public void stopGame() {
@@ -107,6 +114,7 @@ public class GameManager {
             BaseNode newNode = this.sheet.getNewestTap().baseNode;
     
             if (ct - newNode.tapTime > Setting.BAD_TIME) {
+                popouts.popMiss();
                 score.addMiss();
                 sheet.destoryNewestTap();
             }
@@ -130,14 +138,18 @@ public class GameManager {
                 if (type == newNode.type) {
                     // check is bad or great or perfect
                     if (diff <= Setting.PERFECT_TIME) {
+                        this.popouts.popPerfect();
                         this.score.addPerfect();
                     } else if (diff <= Setting.GREAT_TIME) {
+                        this.popouts.popGreat();
                         this.score.addGreat();
                     } else if (diff <= Setting.BAD_TIME) {
+                        this.popouts.popBad();
                         this.score.addBad();
                     } 
                 } else {
                     // wrong type => bad
+                    this.popouts.popBad();
                     this.score.addBad();
                 }
 

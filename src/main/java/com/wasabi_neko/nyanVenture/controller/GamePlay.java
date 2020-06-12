@@ -41,7 +41,7 @@ public class GamePlay implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("start");
 
-        this.gameManager = new GameManager(this.tapPane, this.holdPane, this.endPane, this.startLowerPane, this.startUpperPane);
+        this.gameManager = new GameManager(this.tapPane, this.holdPane, this.endPane, this.startLowerPane, this.startUpperPane, this.popoutPane);
 
         if (this.gameManager.loadGame(0) == false) {
             this.onBackPressed();
@@ -116,7 +116,7 @@ public class GamePlay implements Initializable {
         this.resetGame();
     }
 
-    
+
     // -------------------------------------------------------------------------
     // Game Controller
     // -------------------------------------------------------------------------
@@ -124,6 +124,8 @@ public class GamePlay implements Initializable {
         gameManager.resetGame();
     }
     public void startGame() {
+        System.out.println("start game in gamePlay");
+
         // enable gameplay pane
         gamePlayPane.setVisible(true);
         gamePlayPane.setDisable(false);
@@ -133,8 +135,9 @@ public class GamePlay implements Initializable {
         // disable pause pane
         pausePane.setVisible(false);
         pausePane.setDisable(true);
+        // requestFocus
+        gamePlayPane.requestFocus();
 
-        System.out.println("start game in gamePlay");
         gameManager.startGame();
         this.updater.play();
     }
@@ -142,6 +145,7 @@ public class GamePlay implements Initializable {
         // enable pause pane
         pausePane.setVisible(true);
         pausePane.setDisable(false);
+        pausePane.requestFocus();
 
         this.updater.pause();
         gameManager.pauseGame();
@@ -154,6 +158,8 @@ public class GamePlay implements Initializable {
         finishPane.setVisible(true);
         finishPane.setDisable(false);
 
+        finishPane.requestFocus();
+        
         gameManager.pauseGame();
 
         // TODO: save score data

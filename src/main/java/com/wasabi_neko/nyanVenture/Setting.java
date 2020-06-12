@@ -13,4 +13,6 @@ public class Setting {
 
     public static final String IMG_NODE0_PATH = "nodes/node0.png";
     public static final String IMG_NODE1_PATH = "nodes/node1.png";
+
+    public static final String POPOUT_IMG_PATH = "popouts/%s.png";
 }
