@@ -1,6 +1,5 @@
 package com.wasabi_neko.nyanVenture.controller;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,7 +26,6 @@ public class MainMenu implements Initializable {
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // TODO Auto-generated method stub
         System.out.println("test");
     }
 

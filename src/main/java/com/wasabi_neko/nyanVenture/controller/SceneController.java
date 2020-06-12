@@ -30,7 +30,7 @@ public class SceneController {
     public void startShow() {
         this.mainStage.setTitle("nyanVenture");
         this.changeScene("startMenu");
-        // this.changeScene("gamePlay");   //TODO temp
+        // this.changeScene("gamePlay");
         this.mainStage.show();
     }
 

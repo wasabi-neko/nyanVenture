@@ -3,10 +3,12 @@ package com.wasabi_neko.nyanVenture.tool;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import javax.imageio.stream.FileImageInputStream;
 
 import com.wasabi_neko.nyanVenture.gameObject.BaseNode;
+import com.wasabi_neko.nyanVenture.gameObject.Comparators;
 import com.wasabi_neko.nyanVenture.gameObject.SheetData;
 
 public class TempMain {
@@ -40,19 +42,20 @@ public class TempMain {
         addNode(6000, 0);
         addNode(6500, 0);
         addNode(7000, 1);
-        addNode(8000, 0);
         addNode(9000, 1);
+        addNode(8000, 0);
         addNode(9500, 1);
 
+        tempList.sort(Comparators.baseNode_startTime_CMP);
         for (BaseNode baseNode : tempList) {
             System.out.println(baseNode);
         }
 
-        SheetData data = new SheetData(tempList);
-        data.songLength = 11000;
+        SheetData data = new SheetData(tempList, 11000);
+
         try {
-            FileManager.newSheetData(data, 0);
-            // FileManager.overWriteSheetData(data, 0);
+            // FileManager.newSheetData(data, 0);
+            FileManager.overWriteSheetData(data, 0);
         } catch(IOException e) {
             System.out.println("in main");
             System.out.println(e);

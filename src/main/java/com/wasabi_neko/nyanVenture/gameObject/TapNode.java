@@ -1,9 +1,5 @@
 package com.wasabi_neko.nyanVenture.gameObject;
 
-import java.util.ArrayList;
-
-import com.wasabi_neko.nyanVenture.Setting;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -14,71 +10,87 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
+/**
+ * class: TapNode
+ *  holds BaseNode and img data
+ *  perform animation
+ */
 public class TapNode {
     public BaseNode baseNode;
-    public ArrayList<TapNode> tapList;
-
-    private Pane tapPane;
-    private Score score;
-
-    public ImageView imgV;
     public Timeline timeline;
 
-    public TapNode(Pane _tapPane) {
-        this.tapPane = _tapPane;
+    private ImageView imgV;
+    private Pane tapPane;
+
+    public TapNode() {
+        this.imgV = new ImageView();
     }
 
-    public void init(BaseNode _baseNode, ArrayList<TapNode> _tapList, double x, double y, Image img, Score _score) {
+    public void init(Pane _tapPane, BaseNode _baseNode, double x, double y, Image img) {
+        this.tapPane = _tapPane;
         this.baseNode = _baseNode;
-        this.tapList = _tapList;
-        
-        this.imgV = new ImageView();
+
         this.imgV.setImage(img);
         this.imgV.setFitHeight(60);
         this.imgV.setFitWidth(60);
         this.imgV.setX(x);
         this.imgV.setY(y);
+    }
 
-        this.score = _score;
+    // -------------------------------------------------------------------------
+    // Getters
+    // -------------------------------------------------------------------------
+    public double getImgX() {
+        double returns = -1;
+        if (this.imgV != null) {
+            returns = this.imgV.xProperty().doubleValue();
+        }
+
+        return returns;
+    }
+
+    public double getImgY() {
+        double returns = -1;
+        if (this.imgV != null) {
+            returns = this.imgV.yProperty().doubleValue();
+        }
+
+        return returns;
+    }
+
+    // -------------------------------------------------------------------------
+    // Methods
+    // -------------------------------------------------------------------------
+    public void destroy() {
+        this.tapPane.getChildren().remove(this.imgV);
+        this.timeline.stop();
     }
 
     public void playAnima(double tapX, double endX) {
-        // this.tapPane.getChildren().add(this.imgV);
-        
-        // TODO: add animation after `miss`
-        // animation
+        this.tapPane.getChildren().add(this.imgV);
+
         timeline = new Timeline();
         timeline.setCycleCount(1);
         timeline.setAutoReverse(true);
 
-        // from initX -> tapX
+        // from initX -> endX
+        double startX = this.imgV.xProperty().doubleValue();
         long tapDuration = baseNode.tapTime - baseNode.startTime;
-        double speed = (tapX - this.imgV.getX()) / tapDuration;
-        double terminalX = tapX + speed * (Setting.MISS_TIME);
+        double speed = (tapX - startX) / tapDuration;
+        long realDuration = Math.round((endX - startX) / speed );
 
-        long durationT = tapDuration + Setting.MISS_TIME;
-        KeyValue kv = new KeyValue(this.imgV.xProperty(), terminalX);
-        KeyFrame kf = new KeyFrame(Duration.millis(durationT), kv);
-
+        KeyValue kv = new KeyValue(this.imgV.xProperty(), endX);
+        KeyFrame kf = new KeyFrame(Duration.millis(realDuration), kv);
         timeline.getKeyFrames().add(kf);
         timeline.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("test: in end timeline");   //TODO:
-             
-                score.addMiss();
-                tapPane.getChildren().remove(0);
-                tapList.remove(0);
+                System.out.println("test: in end timeline");
+            
+                tapPane.getChildren().remove(imgV);
                 imgV = null;    // clear
             }
         });
         timeline.play();
-    }
-
-    public void endAnima() {
-        this.timeline.stop();
-
-        // special aniamtion
-        // this.tapPane.getChildren().remove(0);
     }
 }

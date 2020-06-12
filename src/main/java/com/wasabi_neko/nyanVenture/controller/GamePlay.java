@@ -2,43 +2,26 @@ package com.wasabi_neko.nyanVenture.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.print.event.PrintJobListener;
 
 import com.wasabi_neko.nyanVenture.App;
 import com.wasabi_neko.nyanVenture.Setting;
-import com.wasabi_neko.nyanVenture.gameObject.BaseNode;
-import com.wasabi_neko.nyanVenture.gameObject.Player;
-import com.wasabi_neko.nyanVenture.gameObject.Score;
-import com.wasabi_neko.nyanVenture.gameObject.Sheet;
+import com.wasabi_neko.nyanVenture.gameObject.GameManager;
 import com.wasabi_neko.nyanVenture.gameObject.SheetData;
-import com.wasabi_neko.nyanVenture.gameObject.TapNode;
-import com.wasabi_neko.nyanVenture.tool.FileManager;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 public class GamePlay implements Initializable {
-    public long startTime = 0;
-
-    public Sheet  sheet;
-    public Player player;
-    public Score score;
-
     @FXML Pane rootPane;
     @FXML Pane gamePlayPane;
     @FXML Pane pausePane;
@@ -46,73 +29,46 @@ public class GamePlay implements Initializable {
     @FXML Pane holdPane;
     @FXML Pane tapPane;
     @FXML Pane popoutPane;
-    @FXML Pane missPane;
     @FXML Pane startLowerPane;
     @FXML Pane startUpperPane;
     @FXML Pane endPane;
     @FXML Button btEsc;
 
+    public GameManager gameManager;
+    public Timeline updater;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("start");
 
-        this.startTime = System.currentTimeMillis();
-        this.player = new Player(this.tapPane, this.holdPane, startTime);
-        this.score = new Score();
-        this.sheet = new Sheet(this.tapPane, this.holdPane, this.startUpperPane, this.startLowerPane, this.endPane, this.score, startTime);
+        this.gameManager = new GameManager(this.tapPane, this.holdPane, this.endPane, this.startLowerPane, this.startUpperPane);
 
-        try {
-            SheetData data = FileManager.getSheetData(0);
-            sheet.sheetData = data;
-        } catch (Exception e) {
-            System.out.println(e);  //TODO: change
+        if (this.gameManager.loadGame(0) == false) {
             this.onBackPressed();
         }
 
+        this.updater = new Timeline();
+        updater.setCycleCount(Timeline.INDEFINITE);
+        updater.setAutoReverse(true);
+
+        KeyValue kv = null;
+        KeyFrame kf = new KeyFrame(Duration.millis(Setting.FIXUPDATE_RATE), this.onUpdate, kv);
+        updater.getKeyFrames().add(kf);
+        
         resetGame();
         startGame();
     }
 
-    public void onEscPressed() {
-        this.pauseGame();
-    }
+    // -------------------------------------------------------------------------
+    // Game Loops and Updater
+    // -------------------------------------------------------------------------
 
-    public void onBackPressed() {
-        this.sheet.stop();
-        App.sceneController.changeScene("mainMenu");
-    }
-
-    public void onAgainPressed() {
-        resetGame();
-    }
-
-    public void resetGame() {
-        // this.sheet.stop();
-        this.startTime = System.currentTimeMillis();
-    }
-    public void startGame() {
-        gamePlayPane.setVisible(true);
-        gamePlayPane.setDisable(false);
-        finishPane.setVisible(false);
-        finishPane.setDisable(true);
-        pausePane.setVisible(false);
-        pausePane.setDisable(true);
-        this.sheet.playSheet();
-    }
-    public void pauseGame() {
-        pausePane.setVisible(true);
-        pausePane.setDisable(false);
-        this.sheet.pauseAll();
-        
-    }
-    public void finishGame() {
-        this.sheet.stop();
-        gamePlayPane.setVisible(false);
-        gamePlayPane.setDisable(true);
-        finishPane.setVisible(true);
-        finishPane.setDisable(false);
-    }
-
+    private EventHandler<ActionEvent> onUpdate = new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            gameManager.update();
+        }
+    };
     public void onKeyPressed(KeyEvent event) {
         KeyCode key = event.getCode();
         int keyType = -1;
@@ -130,8 +86,9 @@ public class GamePlay implements Initializable {
         }
 
         if (keyType != -1) {
-            this.tapCheck(keyType);
-            this.score.tempPrint();   
+            this.gameManager.update();
+            this.gameManager.tapCheck(keyType);
+            this.gameManager.getScore().tempPrint();    //TODO: temp
         }
     }
 
@@ -139,37 +96,66 @@ public class GamePlay implements Initializable {
         // 
     }
 
-    public void tapCheck(int type) {
-        if (this.tapPane.getChildren().size() > 0 ) {
-            BaseNode temp = sheet.getNewestTap().baseNode;
 
-            System.out.println("type: " + type);
-            // crrentTime
-            long ct = System.currentTimeMillis() - this.startTime;
-            long diff = Math.abs(ct - temp.tapTime);
-
-            if (diff < Setting.NO_TIGGER_TIME && (ct-temp.tapTime < Setting.MISS_TIME) ){
-                // tap
-                if (type != temp.type) {
-                    this.score.addMiss();
-                } else if ( diff < Setting.GREAT_TIME) {
-                    this.score.addPerfect();
-                } else if (diff < Setting.MISS_TIME) {
-                    this.score.addGreat();
-                } else if (ct - temp.tapTime < 0){
-                    // diif > miss_time
-                    this.score.addMiss();
-                }
-
-                sheet.tapNewestTap();
-            } else {
-                // ignore
-                System.out.println("ignore");   // 
-            }
-        }
+    // -------------------------------------------------------------------------
+    // GUI settings
+    // -------------------------------------------------------------------------
+    public void onEscPressed() {
+        this.pauseGame();
     }
 
-    public void keyHandler(KeyEvent event) {
-        KeyCode key = event.getCode();
+    public void onBackPressed() {
+        App.sceneController.changeScene("mainMenu");
+    }
+
+    public void onResumePressed() {
+        this.startGame();
+    }
+
+    public void onAgainPressed() {
+        this.resetGame();
+    }
+
+    
+    // -------------------------------------------------------------------------
+    // Game Controller
+    // -------------------------------------------------------------------------
+    public void resetGame() {
+        gameManager.resetGame();
+    }
+    public void startGame() {
+        // enable gameplay pane
+        gamePlayPane.setVisible(true);
+        gamePlayPane.setDisable(false);
+        // diable finish pane
+        finishPane.setVisible(false);
+        finishPane.setDisable(true);
+        // disable pause pane
+        pausePane.setVisible(false);
+        pausePane.setDisable(true);
+
+        System.out.println("start game in gamePlay");
+        gameManager.startGame();
+        this.updater.play();
+    }
+    public void pauseGame() {
+        // enable pause pane
+        pausePane.setVisible(true);
+        pausePane.setDisable(false);
+
+        this.updater.pause();
+        gameManager.pauseGame();
+    }
+    public void finishGame() {
+        // disable gameplay pane
+        gamePlayPane.setVisible(false);
+        gamePlayPane.setDisable(true);
+        // enable finish pane
+        finishPane.setVisible(true);
+        finishPane.setDisable(false);
+
+        gameManager.pauseGame();
+
+        // TODO: save score data
     }
 }

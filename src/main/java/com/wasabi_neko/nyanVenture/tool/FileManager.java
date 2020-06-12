@@ -19,7 +19,7 @@ public class FileManager {
 
     public static SheetData getSheetData(int index) throws IOException {
         String fileName = String.format(SHEETDATA_NAME, index);
-        SheetData data = new SheetData();
+        SheetData data = null;
 
         try (
             FileInputStream fileIn = new FileInputStream(fileName);
@@ -28,7 +28,7 @@ public class FileManager {
             data = (SheetData) objectIn.readObject();
         } catch (Exception e) {
             data = null;
-            System.out.println(e);  //TODO: change print format?
+            System.out.println(e);
         }
 
         return data;
@@ -68,7 +68,7 @@ public class FileManager {
             objectOut.writeObject(data);
         } catch (IOException e) {
             System.out.println("wwww");
-            System.out.println(e);  //TODO: change print format?
+            System.out.println(e);
         } finally {
             System.out.println(file.getAbsolutePath());
         }

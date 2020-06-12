@@ -7,24 +7,37 @@ import java.util.List;
 import com.wasabi_neko.nyanVenture.Setting;
 
 public class SheetData implements Serializable {
-    public long songLength;
+    private long songLength;
     private List<BaseNode> nodeList;
     private int index = 0;
 
-    public SheetData() {
+    // public SheetData() {
+    //     super();
+    //     this.nodeList = new ArrayList<>();
+    //     this.index = 0;
+    // }
+
+    public SheetData(List<BaseNode> _nodeList, long _songLength) {
         super();
-        this.nodeList = new ArrayList<BaseNode>();
+        this.nodeList = _nodeList;
+        this.songLength = _songLength;
         this.index = 0;
     }
 
-    public SheetData(List<BaseNode> _nodeList) {
-        super();
-        this.nodeList = _nodeList;
-        this.index = 0;
+    public long getSongLength() {
+        return this.songLength;
+    }
+
+    public boolean isEmpty() {
+        return this.nodeList.isEmpty();
     }
 
     public void sort() {
-        // un compleeted
+        this.nodeList.sort(Comparators.baseNode_startTime_CMP);
+    }
+
+    public void reset() {
+        this.index = 0;
     }
 
     public BaseNode getNext(long currentTime) {
@@ -45,7 +58,11 @@ public class SheetData implements Serializable {
         }
     }
 
-    public boolean isEmpty() {
-        return this.nodeList.isEmpty();
-    }
+    // public void tempPrint() {
+    //     if ( !this.nodeList.isEmpty() ) {
+    //         for (BaseNode baseNode : this.nodeList) {
+    //             System.out.println(baseNode.toString());
+    //         }
+    //     }
+    // }
 }

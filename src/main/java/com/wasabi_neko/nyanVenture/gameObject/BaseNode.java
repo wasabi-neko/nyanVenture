@@ -28,6 +28,6 @@ public class BaseNode implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("BaseNode[startTime=%d,tapTime=%d,type=%d,upDown=%d]", startTime, tapTime, type, upDown);
+        return String.format("BaseNode{startTime=%d,tapTime=%d,type=%d,upDown=%d}", startTime, tapTime, type, upDown);
     }
 }

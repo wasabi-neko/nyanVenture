@@ -4,6 +4,7 @@ public class Score {
     public int missTimes;
     public int greatTimes;
     public int perfectTimes;
+    public int badTimes;
     
     public int finalScore;
     public int maxComble;
@@ -13,6 +14,7 @@ public class Score {
         this.missTimes = 0;
         this.greatTimes = 0;
         this.perfectTimes = 0;
+        this.badTimes = 0;
         
         this.finalScore = 0;
         this.maxComble = 0;
@@ -35,12 +37,17 @@ public class Score {
         }
     }
 
+    public void addBad() {
+        this.badTimes += 1;
+        currentComble = 0;
+    }
+
     public void addMiss() {
         this.missTimes += 1;
         currentComble = 0;
     }
 
     public void tempPrint() {
-        System.out.printf("P:%d, G:%d, M:%d\n", this.perfectTimes, this.greatTimes, this.missTimes);
+        System.out.printf("P:%d, G:%d, B:%d, M:%d\n", this.perfectTimes, this.greatTimes, this.badTimes, this.missTimes);
     }
 }
