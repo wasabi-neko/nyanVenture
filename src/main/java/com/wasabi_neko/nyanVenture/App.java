@@ -1,6 +1,7 @@
 package com.wasabi_neko.nyanVenture;
 
 import com.wasabi_neko.nyanVenture.controller.*;
+import com.wasabi_neko.nyanVenture.gameObject.GameManager;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -20,6 +21,7 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         sceneController.mainStage = primaryStage;
         sceneController.startShow();
+        
     }
 
     @Override

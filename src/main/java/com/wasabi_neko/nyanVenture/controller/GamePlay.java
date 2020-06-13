@@ -43,7 +43,7 @@ public class GamePlay implements Initializable {
 
         this.gameManager = new GameManager(this.tapPane, this.holdPane, this.endPane, this.startLowerPane, this.startUpperPane, this.popoutPane);
 
-        if (this.gameManager.loadGame(0) == false) {
+        if (this.gameManager.loadGame(1) == false) {
             this.onBackPressed();
         }
 
@@ -159,7 +159,7 @@ public class GamePlay implements Initializable {
         finishPane.setDisable(false);
 
         finishPane.requestFocus();
-        
+
         gameManager.pauseGame();
 
         // TODO: save score data
