@@ -28,15 +28,20 @@ public class GamePlay implements Initializable {
     @FXML Pane rootPane;
     // GamePlay
     @FXML Pane gamePlayPane;
+    @FXML Pane bgPane;
+    @FXML Pane roadPane;
+        // -- player
     @FXML Pane playerPane;
     @FXML Pane charaPane;
     @FXML Pane effectPane;
+        // -- node
     @FXML Pane holdPane;
     @FXML Pane tapPane;
     @FXML Pane popoutPane;
     @FXML Pane startLowerPane;
     @FXML Pane startUpperPane;
     @FXML Pane endPane;
+    
     @FXML Button btEsc;
     
     // Pause
@@ -63,10 +68,15 @@ public class GamePlay implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("start");
 
-        this.gameManager = new GameManager(this.tapPane, this.holdPane, this.endPane, this.startLowerPane, this.startUpperPane, this.popoutPane, this.playerPane, this.charaPane, this.effectPane);
+        this.gameManager = new GameManager();
+        this.gameManager.initSheet(this.tapPane, this.holdPane, this.endPane, this.startLowerPane, this.startUpperPane);
+        this.gameManager.initPalyer(this.playerPane, this.charaPane, this.effectPane);
+        this.gameManager.initPopouts(this.popoutPane);
+        this.gameManager.initBG(this.bgPane, this.roadPane);
+
 
         // == GameManager ==
-        if (this.gameManager.loadGame(1) == false) {
+        if (this.gameManager.loadGame(0) == false) {
             this.onBackPressed();
         }
 

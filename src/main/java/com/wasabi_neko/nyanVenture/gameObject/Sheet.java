@@ -23,7 +23,8 @@ public class Sheet {
     public SheetData sheetData;
     private PriorityQueue<TapNode> tapList;
 
-    public Sheet(Pane _tapPane, Pane _holdPane, Pane _upperPane, Pane _lowerPane, Pane _tapPosPane, SheetData _sheetData){
+    public Sheet(Pane _tapPane, Pane _holdPane, Pane _upperPane, Pane _lowerPane, Pane _tapPosPane,
+            SheetData _sheetData) {
         this.tapPane = _tapPane;
         this.holdPane = _holdPane;
         this.startUpperPane = _upperPane;
@@ -51,7 +52,6 @@ public class Sheet {
         return this.tapList.isEmpty();
     }
 
-
     // -------------------------------------------------------------------------
     // Animation control
     // -------------------------------------------------------------------------
@@ -59,17 +59,20 @@ public class Sheet {
         this.stop();
         this.sheetData.reset();
     }
+
     public void pause() {
         for (TapNode node : this.tapList) {
             node.timeline.pause();
         }
     }
+
     public void stop() {
         for (TapNode node : this.tapList) {
             node.timeline.stop();
             node.destroy();
         }
     }
+
     public void play() {
         for (TapNode node : this.tapList) {
             node.timeline.play();
@@ -83,13 +86,18 @@ public class Sheet {
         return this.tapList.peek();
     }
 
+    public void removeOneFromTapList() {
+        this.tapList.poll();
+    }
+
     public void destoryNewestTap() {
         TapNode node = this.tapList.poll(); // remove form list
         node.destroy(); // remove form pane
     }
-    
+
     /**
      * Create new tap if it's the time
+     * 
      * @param currentTime
      */
     public void tapCreateCheck(long currentTime) {
@@ -97,7 +105,7 @@ public class Sheet {
         node = sheetData.getNext(currentTime);
 
         if (node != null) {
-            System.out.printf("test:%d\n", currentTime);
+            // System.out.printf("test:%d\n", currentTime);
             addTap(node);
         }
     }
@@ -115,13 +123,13 @@ public class Sheet {
             startY = upperY;
         }
 
-        // if (baseNode.type >= 2)  {
-        //     System.out.println("#ERROR: baseNode.type no proper");
-        //     return;
+        // if (baseNode.type >= 2) {
+        // System.out.println("#ERROR: baseNode.type no proper");
+        // return;
         // }
 
-        int imgCode = baseNode.type[2]==1 ? 0 : 1;  //TODO: new img name control
-        
+        int imgCode = baseNode.type[2] == 1 ? 0 : 1; // TODO: new img name control
+
         // paly animation
         newNode.init(this.tapPane, baseNode, startX, startY, this.tapImg[imgCode]);
         newNode.playAnima(this.tapX, this.endX);
@@ -134,8 +142,10 @@ public class Sheet {
             String node1Path = Setting.IMG_NODE1_PATH;
             String node0Path = Setting.IMG_NODE0_PATH;
 
-            this.tapImg[0] = new Image(App.class.getResourceAsStream(node0Path), (double)40, (double)40, true, false);
-            this.tapImg[1] = new Image(App.class.getResourceAsStream(node1Path), (double)40, (double)40, true, false);
+            this.tapImg[0] = new Image(App.class.getResourceAsStream(node0Path), (double) 100, (double) 100, true,
+                    false);
+            this.tapImg[1] = new Image(App.class.getResourceAsStream(node1Path), (double) 100, (double) 100, true,
+                    false);
         } catch (Exception e) {
             System.out.println("#Error:# no Image");
         }

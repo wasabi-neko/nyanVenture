@@ -9,17 +9,22 @@
    <children>
       <Pane fx:id="gamePlayPane" prefHeight="900.0" prefWidth="1440.0">
          <children>
-            <Pane fx:id="startLowerPane" layoutX="1340.0" layoutY="650.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: blue;" />
+            <Pane prefHeight="900.0" prefWidth="1440.0">
+               <children>
+                  <Pane fx:id="bgPane" prefHeight="900.0" prefWidth="1440.0" />
+                  <Pane fx:id="roadPane" prefHeight="900.0" prefWidth="1440.0" />
+               </children>
+            </Pane>
+            <Pane fx:id="startLowerPane" layoutX="1340.0" layoutY="550.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: blue;" />
             <Pane fx:id="startUpperPane" layoutX="1340.0" layoutY="400.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: black;" />
-            <Pane fx:id="endPane" layoutX="200.0" layoutY="650.0" prefHeight="100.0" prefWidth="10.0" style="-fx-background-color: blue;" />
-            <Pane layoutX="200.0" layoutY="400.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: black;" />
-            <Pane fx:id="playerPane" layoutY="550.0" prefHeight="200.0" prefWidth="200.0">
+            <Pane fx:id="endPane" layoutX="300.0" layoutY="550.0" prefHeight="100.0" prefWidth="10.0" style="-fx-background-color: blue;" />
+            <Pane fx:id="playerPane" layoutX="100.0" layoutY="480.0" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Pane fx:id="charaPane" prefHeight="200.0" prefWidth="200.0" />
                   <Pane fx:id="effectPane" layoutX="150.0" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </Pane>
-            <Pane fx:id="popoutPane" layoutX="200.0" layoutY="500.0" prefHeight="200.0" prefWidth="300.0" />
+            <Pane fx:id="popoutPane" layoutX="300.0" layoutY="350.0" prefHeight="200.0" prefWidth="300.0" />
             <Pane fx:id="holdPane" disable="true" prefHeight="900.0" prefWidth="1440.0" />
             <Pane fx:id="tapPane" prefHeight="900.0" prefWidth="1440.0" />
             <Button fx:id="btEsc" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onEscPressed" text="ESC">

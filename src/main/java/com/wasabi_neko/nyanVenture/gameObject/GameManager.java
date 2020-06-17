@@ -11,6 +11,7 @@ public class GameManager {
     public Player player;
     public Score score;
     public Popouts popouts;
+    public BGManager bgManager;
     
     private long startTime = 0;
     private long timePassed = 0;
@@ -20,16 +21,32 @@ public class GameManager {
     private Pane tapPosPane, lowerPosPane, upperPosPane;
     private Pane popPane;
 
-    public GameManager(Pane _tapPane, Pane _holdPane, Pane _tapPosPane, Pane _lowerPosPane, Pane _upperPosPane, Pane _popPane, Pane _playerPane, Pane _charaPane, Pane _effectPane) {
+    public GameManager() {
+        // no thing
+        // kimoji~
+    }
+
+    // -------------------------------------------------------------------------
+    // Init  methods
+    // -------------------------------------------------------------------------
+    public void initSheet(Pane _tapPane, Pane _holdPane, Pane _tapPosPane, Pane _lowerPosPane, Pane _upperPosPane) {
         this.tapPane = _tapPane;
         this.holdPane = _holdPane;
         this.tapPosPane = _tapPosPane;
         this.lowerPosPane = _lowerPosPane;
         this.upperPosPane = _upperPosPane;
-        this.popPane = _popPane;
+    }
 
-        // this player had not load yet
+    public void initPopouts(Pane _popPane) {
+        this.popPane = _popPane;
+    }
+
+    public void initPalyer(Pane _playerPane, Pane _charaPane, Pane _effectPane) {
         this.player = new Player(_playerPane, _charaPane, _effectPane);
+    }
+
+    public void initBG(Pane _bgPane, Pane _roadPane) {
+        this.bgManager = new BGManager(_bgPane, _roadPane);   
     }
 
     // -------------------------------------------------------------------------
@@ -67,9 +84,12 @@ public class GameManager {
             // Load Player
             this.player.loadImg();
 
+            // Load bg
+            this.bgManager.loadImg();
 
             return true;
         } catch (Exception e) {
+            System.out.println("load game fail");
             System.out.println(e);
             return false;
         }
@@ -88,6 +108,7 @@ public class GameManager {
         this.startTime = System.currentTimeMillis() - timePassed;
         this.sheet.play();
         this.player.playAnimaRun();
+        this.bgManager.play();
     }
 
     public void pauseGame() {
@@ -95,12 +116,14 @@ public class GameManager {
         this.timePassed = System.currentTimeMillis() - this.startTime;
         this.sheet.pause();
         this.player.pauseAnima();
+        this.bgManager.pause();
     }
 
     public void stopGame() {
         this.gameStatus = 3;
         this.sheet.stop();
         this.player.stopAnima();
+        this.bgManager.stop();
     }
 
     // -------------------------------------------------------------------------
@@ -126,7 +149,8 @@ public class GameManager {
             if (ct - newNode.tapTime > Setting.BAD_TIME) {
                 popouts.popMiss();
                 score.addMiss();
-                sheet.destoryNewestTap();
+                sheet.removeOneFromTapList();
+                // sheet.destoryNewestTap();
             }
         }
     }

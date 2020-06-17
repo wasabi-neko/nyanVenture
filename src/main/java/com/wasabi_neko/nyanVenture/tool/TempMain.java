@@ -32,19 +32,19 @@ public class TempMain {
         tempList = new ArrayList<>();
         
         addNode(2000, 2000, 0);
-        addNode(3000, 1000, 0);
-        addNode(3500, 3000, 0);
-        addNode(4000, 1000, 0);
+        addNode(3000, 2000, 0);
+        addNode(3500, 2000, 0);
+        addNode(4000, 2000, 0);
         addNode(4200, 2000, 1);
         addNode(4300, 2000, 0);
         addNode(5000, 2000, 1);
         addNode(5500, 2000, 1);
-        addNode(6000, 1000, 0);
-        addNode(6500, 3000, 0);
-        addNode(7000, 500, 1);
-        addNode(9000, 3000, 1);
+        addNode(6000, 2000, 0);
+        addNode(6500, 2000, 0);
+        addNode(7000, 2000, 1);
+        addNode(9000, 2000, 1);
         addNode(8000, 2000, 0);
-        addNode(9500, 1000, 1);
+        addNode(9500, 2000, 1);
 
         tempList.sort(Comparators.baseNode_startTime_CMP);
         for (BaseNode baseNode : tempList) {
@@ -54,7 +54,7 @@ public class TempMain {
         SheetData data = new SheetData(tempList, 14000);
 
         try {
-            FileManager.newSheetData(data, 1);
+            FileManager.newSheetData(data, 0);
             // FileManager.overWriteSheetData(data, 1);
         } catch(IOException e) {
             System.out.println("in main");

@@ -18,4 +18,7 @@ public class Setting {
     public static final String POPOUT_IMG_PATH = "popouts/%s.png";
 
     public static final String PLAYER_ANIMATION_PATH = "anima/%s/%02d.png";
+
+    public static final String BG_PATH = "background/bg.png";
+    public static final String BG_ROAD_PATH = "background/road.png";
 }

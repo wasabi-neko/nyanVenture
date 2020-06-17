@@ -31,8 +31,8 @@ public class TapNode {
         this.baseNode = _baseNode;
 
         this.imgV.setImage(img);
-        this.imgV.setFitHeight(200);
-        this.imgV.setFitWidth(200);
+        // this.imgV.setFitHeight(200);
+        // this.imgV.setFitWidth(200);
         this.imgV.setX(x);
         this.imgV.setY(y);
     }
@@ -85,7 +85,7 @@ public class TapNode {
         timeline.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("test: in end timeline");
+                // System.out.println("test: in end timeline");
             
                 tapPane.getChildren().remove(imgV);
                 imgV = null;    // clear
