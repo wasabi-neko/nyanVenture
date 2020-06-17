@@ -51,7 +51,7 @@ public class TempMain {
             System.out.println(baseNode);
         }
 
-        SheetData data = new SheetData(tempList, 11000);
+        SheetData data = new SheetData(tempList, 14000);
 
         try {
             FileManager.newSheetData(data, 1);
@@ -62,10 +62,19 @@ public class TempMain {
         }
     }
 
-    public static void addNode(int startTime, int delta, int type) {
+    public static void addNode(int startTime, int delta, int tempType) {
         long t1 = startTime, t2 = t1 + delta;
         short u1 = 0;
-        BaseNode temp = new BaseNode(t1, t2, (short)type, u1);
+        short[] type;
+
+        if (tempType == 0) {
+            short[] temp = {-1, -1, 1, 0};
+            type = temp;
+        } else {
+            short[] temp = {-1, -1, 0, 1};
+            type = temp;
+        }
+        BaseNode temp = new BaseNode(t1, t2, type, u1, false);
 
         tempList.add(temp);
     }

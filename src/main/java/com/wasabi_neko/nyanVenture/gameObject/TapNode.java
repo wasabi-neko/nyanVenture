@@ -31,8 +31,8 @@ public class TapNode {
         this.baseNode = _baseNode;
 
         this.imgV.setImage(img);
-        this.imgV.setFitHeight(60);
-        this.imgV.setFitWidth(60);
+        this.imgV.setFitHeight(200);
+        this.imgV.setFitWidth(200);
         this.imgV.setX(x);
         this.imgV.setY(y);
     }

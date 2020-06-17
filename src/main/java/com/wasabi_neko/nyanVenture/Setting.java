@@ -3,6 +3,7 @@ package com.wasabi_neko.nyanVenture;
 public class Setting {
     
     public static final long FIXUPDATE_RATE = 10;
+    public static final long ANIMA_RATE = 50;      // 10 frame per second
     /**
      * miss | bad | great | perfect | great | bad | no in range
      *     -150  -100   -50   0     50     100   150
@@ -15,4 +16,6 @@ public class Setting {
     public static final String IMG_NODE1_PATH = "nodes/node1.png";
 
     public static final String POPOUT_IMG_PATH = "popouts/%s.png";
+
+    public static final String PLAYER_ANIMATION_PATH = "anima/%s/%02d.png";
 }

@@ -52,12 +52,12 @@ public class SceneController {
         }
 
         // double scaleFactor = ( winHight / fullHight);
-        double scaleFactor = 0.75;
-        Scale scale = new Scale(scaleFactor, scaleFactor);
-        scale.setPivotX(0);
-        scale.setPivotY(0);
+        // double scaleFactor = 0.75;
+        // Scale scale = new Scale(scaleFactor, scaleFactor);
+        // scale.setPivotX(0);
+        // scale.setPivotY(0);
 
-        root.getTransforms().setAll(scale);
+        // root.getTransforms().setAll(scale);
         // root.setPrefWidth(1920  / scaleFactor);
         // root.setPrefHeight(1080 / scaleFactor);
         

@@ -67,6 +67,7 @@ public class Sheet {
     public void stop() {
         for (TapNode node : this.tapList) {
             node.timeline.stop();
+            node.destroy();
         }
     }
     public void play() {
@@ -114,13 +115,15 @@ public class Sheet {
             startY = upperY;
         }
 
-        if (baseNode.type >= 2)  {
-            System.out.println("#ERROR: baseNode.type no proper");
-            return;
-        }
+        // if (baseNode.type >= 2)  {
+        //     System.out.println("#ERROR: baseNode.type no proper");
+        //     return;
+        // }
+
+        int imgCode = baseNode.type[2]==1 ? 0 : 1;  //TODO: new img name control
         
         // paly animation
-        newNode.init(this.tapPane, baseNode, startX, startY, this.tapImg[baseNode.type]);
+        newNode.init(this.tapPane, baseNode, startX, startY, this.tapImg[imgCode]);
         newNode.playAnima(this.tapX, this.endX);
         // add to queue
         this.tapList.add(newNode);
@@ -130,8 +133,9 @@ public class Sheet {
         try {
             String node1Path = Setting.IMG_NODE1_PATH;
             String node0Path = Setting.IMG_NODE0_PATH;
-            this.tapImg[0] = new Image(App.class.getResourceAsStream(node0Path));
-            this.tapImg[1] = new Image(App.class.getResourceAsStream(node1Path));
+
+            this.tapImg[0] = new Image(App.class.getResourceAsStream(node0Path), (double)40, (double)40, true, false);
+            this.tapImg[1] = new Image(App.class.getResourceAsStream(node1Path), (double)40, (double)40, true, false);
         } catch (Exception e) {
             System.out.println("#Error:# no Image");
         }

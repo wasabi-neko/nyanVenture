@@ -20,13 +20,16 @@ public class GameManager {
     private Pane tapPosPane, lowerPosPane, upperPosPane;
     private Pane popPane;
 
-    public GameManager(Pane _tapPane, Pane _holdPane, Pane _tapPosPane, Pane _lowerPosPane, Pane _upperPosPane, Pane _popPane) {
+    public GameManager(Pane _tapPane, Pane _holdPane, Pane _tapPosPane, Pane _lowerPosPane, Pane _upperPosPane, Pane _popPane, Pane _playerPane, Pane _charaPane, Pane _effectPane) {
         this.tapPane = _tapPane;
         this.holdPane = _holdPane;
         this.tapPosPane = _tapPosPane;
         this.lowerPosPane = _lowerPosPane;
         this.upperPosPane = _upperPosPane;
         this.popPane = _popPane;
+
+        // this player had not load yet
+        this.player = new Player(_playerPane, _charaPane, _effectPane);
     }
 
     // -------------------------------------------------------------------------
@@ -54,13 +57,17 @@ public class GameManager {
     public boolean loadGame(int sheetIndex) {
         this.gameStatus = -1;
         try {
+            // Load Sheet Data
             SheetData data = FileManager.getSheetData(sheetIndex);
             this.sheet = new Sheet(this.tapPane, this.holdPane, this.upperPosPane, this.lowerPosPane, this.tapPosPane, data);
             this.sheet.sheetData.sort();
 
             this.popouts = new Popouts(popPane);
 
-            // player
+            // Load Player
+            this.player.loadImg();
+
+
             return true;
         } catch (Exception e) {
             System.out.println(e);
@@ -80,17 +87,20 @@ public class GameManager {
         this.gameStatus = 1;
         this.startTime = System.currentTimeMillis() - timePassed;
         this.sheet.play();
+        this.player.playAnimaRun();
     }
 
     public void pauseGame() {
         this.gameStatus = 2;
         this.timePassed = System.currentTimeMillis() - this.startTime;
         this.sheet.pause();
+        this.player.pauseAnima();
     }
 
     public void stopGame() {
         this.gameStatus = 3;
         this.sheet.stop();
+        this.player.stopAnima();
     }
 
     // -------------------------------------------------------------------------
@@ -121,12 +131,14 @@ public class GameManager {
         }
     }
     
-    public void tapCheck(int type) {
+    /**
+     * check a tapNode
+     * @param tapArr [up, down, left, right] is pressed
+     */
+    public void tapCheck(boolean[] tapArr) {
         // if playing game and list not empty
         if ( this.gameStatus == 1 && !this.sheet.isTapListEmpty() ) {
             BaseNode newNode = this.sheet.getNewestTap().baseNode;
-            
-            System.out.println("type: " + type);
             
             // crrentTime
             long ct = this.timePassed;
@@ -135,7 +147,8 @@ public class GameManager {
             if (diff < Setting.BAD_TIME) {
                 // tap! OwO
                 
-                if (type == newNode.type) {
+                if (newNode.compareType(tapArr)) {
+                    // correct type
                     // check is bad or great or perfect
                     if (diff <= Setting.PERFECT_TIME) {
                         this.popouts.popPerfect();

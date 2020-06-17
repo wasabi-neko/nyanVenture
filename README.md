@@ -3,6 +3,10 @@ a simple rhythm game for collage final project; using javafx
 
 
 ## TODOs
+- chara anima
+- jump
+- 
+
 ### gameplay
 - [ ] hold
 - [x] differ speed tap
@@ -12,5 +16,5 @@ a simple rhythm game for collage final project; using javafx
 - [ ] mainMenu
 
 ### progamming design
-- [ ] change gamePlay pane design
+- [x] change gamePlay pane design
 - [ ] visual sheet editor

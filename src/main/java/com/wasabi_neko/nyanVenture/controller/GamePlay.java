@@ -1,11 +1,13 @@
 package com.wasabi_neko.nyanVenture.controller;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import com.wasabi_neko.nyanVenture.App;
 import com.wasabi_neko.nyanVenture.Setting;
 import com.wasabi_neko.nyanVenture.gameObject.GameManager;
+import com.wasabi_neko.nyanVenture.gameObject.Score;
 import com.wasabi_neko.nyanVenture.gameObject.SheetData;
 
 import javafx.animation.KeyFrame;
@@ -16,6 +18,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -23,9 +26,11 @@ import javafx.util.Duration;
 
 public class GamePlay implements Initializable {
     @FXML Pane rootPane;
+    // GamePlay
     @FXML Pane gamePlayPane;
-    @FXML Pane pausePane;
-    @FXML Pane finishPane;
+    @FXML Pane playerPane;
+    @FXML Pane charaPane;
+    @FXML Pane effectPane;
     @FXML Pane holdPane;
     @FXML Pane tapPane;
     @FXML Pane popoutPane;
@@ -33,16 +38,34 @@ public class GamePlay implements Initializable {
     @FXML Pane startUpperPane;
     @FXML Pane endPane;
     @FXML Button btEsc;
+    
+    // Pause
+    @FXML Pane pausePane;
+
+    // Finish
+    @FXML Pane finishPane;
+    @FXML Label perfectLabel;
+    @FXML Label greatLabel;
+    @FXML Label badlLabel;
+    @FXML Label missLabel;
+    @FXML Label scoreLabel;
+    @FXML Label accuracyLabel;
 
     public GameManager gameManager;
     public Timeline updater;
+
+    public KeyCode[] keyCodeArr = { KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT };
+
+    private boolean[] isTapKey;
+    private boolean[] isHoldKey;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("start");
 
-        this.gameManager = new GameManager(this.tapPane, this.holdPane, this.endPane, this.startLowerPane, this.startUpperPane, this.popoutPane);
+        this.gameManager = new GameManager(this.tapPane, this.holdPane, this.endPane, this.startLowerPane, this.startUpperPane, this.popoutPane, this.playerPane, this.charaPane, this.effectPane);
 
+        // == GameManager ==
         if (this.gameManager.loadGame(1) == false) {
             this.onBackPressed();
         }
@@ -54,7 +77,15 @@ public class GamePlay implements Initializable {
         KeyValue kv = null;
         KeyFrame kf = new KeyFrame(Duration.millis(Setting.FIXUPDATE_RATE), this.onUpdate, kv);
         updater.getKeyFrames().add(kf);
-        
+        // == End GameManger ==
+        // == Menbers ==
+        isHoldKey = new boolean[4];
+        Arrays.fill(isHoldKey, false);
+
+        isTapKey = new boolean[4];
+        Arrays.fill(isTapKey, false);
+        // == End Menbers ==
+
         resetGame();
         startGame();
     }
@@ -62,40 +93,56 @@ public class GamePlay implements Initializable {
     // -------------------------------------------------------------------------
     // Game Loops and Updater
     // -------------------------------------------------------------------------
-
     private EventHandler<ActionEvent> onUpdate = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
             gameManager.update();
+            if (gameManager.isFisnished()) {
+                finishGame();
+            }
         }
     };
+
     public void onKeyPressed(KeyEvent event) {
         KeyCode key = event.getCode();
-        int keyType = -1;
+        boolean tapped = false;
 
-        if (key == KeyCode.RIGHT) {
-            keyType = 0;
-        } else if (key == KeyCode.LEFT) {
-            keyType = 1;
+        // tap but not hold
+        for (int i = 0; i < 4; i++) {
+            if (key == keyCodeArr[i] && !isHoldKey[i]) {
+                this.isTapKey[i] = true;
+                this.isHoldKey[i] = true;
+                tapped = true;
+            }
         }
 
-        if (key == KeyCode.UP) {
-            keyType = 2;
-        } else if (key == KeyCode.DOWN) {
-            keyType = 3;
-        }
+        // System.out.println("tap:" + Arrays.toString(this.isTapKey));
+        // System.out.println("hold:" + Arrays.toString(isHoldKey));
 
-        if (keyType != -1) {
+        if (tapped) {
             this.gameManager.update();
-            this.gameManager.tapCheck(keyType);
-            this.gameManager.getScore().tempPrint();    //TODO: temp
+            this.gameManager.tapCheck(this.isTapKey); // TODO: edit tap arr method
+            // this.gameManager.getScore().tempPrint(); //TODO: temp
+        }
+
+        // reset isTap
+        for (int i = 0; i < 4; i++) {
+            this.isTapKey[i] = false;
         }
     }
 
     public void onKeyRelease(KeyEvent event) {
-        // 
-    }
+        KeyCode key = event.getCode();
 
+        for (int i = 0; i < 4; i++) {
+            if (key == this.keyCodeArr[i]) {
+                this.isHoldKey[i] = false;
+                this.isTapKey[i] = false;
+            }
+        }
+        // System.out.println("tap:" + Arrays.toString(this.isTapKey));
+        // System.out.println("hold:" + Arrays.toString(isHoldKey));
+    }
 
     // -------------------------------------------------------------------------
     // GUI settings
@@ -114,8 +161,8 @@ public class GamePlay implements Initializable {
 
     public void onAgainPressed() {
         this.resetGame();
+        this.startGame();
     }
-
 
     // -------------------------------------------------------------------------
     // Game Controller
@@ -123,6 +170,7 @@ public class GamePlay implements Initializable {
     public void resetGame() {
         gameManager.resetGame();
     }
+
     public void startGame() {
         System.out.println("start game in gamePlay");
 
@@ -141,6 +189,7 @@ public class GamePlay implements Initializable {
         gameManager.startGame();
         this.updater.play();
     }
+
     public void pauseGame() {
         // enable pause pane
         pausePane.setVisible(true);
@@ -150,6 +199,7 @@ public class GamePlay implements Initializable {
         this.updater.pause();
         gameManager.pauseGame();
     }
+
     public void finishGame() {
         // disable gameplay pane
         gamePlayPane.setVisible(false);
@@ -157,10 +207,17 @@ public class GamePlay implements Initializable {
         // enable finish pane
         finishPane.setVisible(true);
         finishPane.setDisable(false);
-
+        // request focus;
         finishPane.requestFocus();
 
         gameManager.pauseGame();
+
+        Score score = this.gameManager.score;
+        this.perfectLabel.setText("Perfect: "+score.perfectTimes);
+        this.greatLabel.setText("Great: "+score.greatTimes);
+        this.badlLabel.setText("Bad: "+score.badTimes);
+        this.missLabel.setText("Miss: "+score.missTimes);
+
 
         // TODO: save score data
     }

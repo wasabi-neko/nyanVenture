@@ -13,6 +13,12 @@
             <Pane fx:id="startUpperPane" layoutX="1340.0" layoutY="400.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: black;" />
             <Pane fx:id="endPane" layoutX="200.0" layoutY="650.0" prefHeight="100.0" prefWidth="10.0" style="-fx-background-color: blue;" />
             <Pane layoutX="200.0" layoutY="400.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: black;" />
+            <Pane fx:id="playerPane" layoutY="550.0" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Pane fx:id="charaPane" prefHeight="200.0" prefWidth="200.0" />
+                  <Pane fx:id="effectPane" layoutX="150.0" prefHeight="200.0" prefWidth="200.0" />
+               </children>
+            </Pane>
             <Pane fx:id="popoutPane" layoutX="200.0" layoutY="500.0" prefHeight="200.0" prefWidth="300.0" />
             <Pane fx:id="holdPane" disable="true" prefHeight="900.0" prefWidth="1440.0" />
             <Pane fx:id="tapPane" prefHeight="900.0" prefWidth="1440.0" />
@@ -23,29 +29,34 @@
             </Button>
          </children>
       </Pane>
-      <Pane fx:id="finishPane" disable="true" prefHeight="900.0" prefWidth="1440.0" visible="false">
+      <Pane fx:id="finishPane" prefHeight="900.0" prefWidth="1440.0" visible="false">
          <children>
-            <Label layoutX="150.0" layoutY="500.0" text="Perfect : {%d}">
+            <Label fx:id="perfectLabel" layoutX="150.0" layoutY="422.0" text="Perfect : {%d}">
                <font>
                   <Font size="50.0" />
                </font>
             </Label>
-            <Label layoutX="150.0" layoutY="600.0" text="Great : {%d}">
+            <Label fx:id="greatLabel" layoutX="142.0" layoutY="567.0" text="Great : {%d}">
                <font>
                   <Font size="50.0" />
                </font>
             </Label>
-            <Label layoutX="150.0" layoutY="700.0" text="Miss :  {%d}">
+            <Label fx:id="badlLabel" layoutX="154.0" layoutY="688.0" text="Bad : {%d}">
                <font>
                   <Font size="50.0" />
                </font>
             </Label>
-            <Label layoutX="500.0" layoutY="500.0" text="Score : {%d}">
+            <Label fx:id="missLabel" layoutX="142.0" layoutY="771.0" text="Miss :  {%d}">
                <font>
                   <Font size="50.0" />
                </font>
             </Label>
-            <Label layoutX="500.0" layoutY="600.0" text="Accuracy : {%d}">
+            <Label fx:id="scoreLabel" layoutX="500.0" layoutY="500.0" text="Score : {%d}">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </Label>
+            <Label fx:id="accuracyLabel" layoutX="500.0" layoutY="600.0" text="Accuracy : {%d}">
                <font>
                   <Font size="50.0" />
                </font>
@@ -61,7 +72,7 @@
                </font>
             </Button>
          </children></Pane>
-      <Pane fx:id="pausePane" disable="true" prefHeight="900.0" prefWidth="1440.0" visible="false">
+      <Pane fx:id="pausePane" prefHeight="900.0" prefWidth="1440.0" visible="false">
          <children>
             <Pane opacity="0.3" prefHeight="900.0" prefWidth="1440.0" style="-fx-background-color: black;" />
             <Pane layoutX="420.0" layoutY="200.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;">
@@ -74,6 +85,11 @@
                   <Button layoutX="273.0" layoutY="40.0" mnemonicParsing="false" onAction="#onBackPressed" text="back to menu">
                      <font>
                         <Font size="60.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="16.0" layoutY="194.0" mnemonicParsing="false" onAction="#onAgainPressed" text="Again">
+                     <font>
+                        <Font size="66.0" />
                      </font>
                   </Button>
                </children>
