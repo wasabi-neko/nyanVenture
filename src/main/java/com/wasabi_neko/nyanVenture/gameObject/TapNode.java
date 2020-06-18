@@ -1,5 +1,8 @@
 package com.wasabi_neko.nyanVenture.gameObject;
 
+import com.wasabi_neko.nyanVenture.Setting;
+import com.wasabi_neko.nyanVenture.tool.PngAnima;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -22,6 +25,8 @@ public class TapNode {
     private ImageView imgV;
     private Pane tapPane;
 
+    private PngAnima[] destoryAnima;
+
     public TapNode() {
         this.imgV = new ImageView();
     }
@@ -35,6 +40,17 @@ public class TapNode {
         // this.imgV.setFitWidth(200);
         this.imgV.setX(x);
         this.imgV.setY(y);
+
+        this.destoryAnima = new PngAnima[2];
+        this.destoryAnima[0] = new PngAnima(4, 300, 300);
+        this.destoryAnima[0].setPane(this.tapPane);
+        this.destoryAnima[0].setPath(Setting.BREAK_LEFT_IMG);
+        this.destoryAnima[0].loadImg();
+
+        this.destoryAnima[1] = new PngAnima(4, 300, 300);
+        this.destoryAnima[1].setPane(this.tapPane);
+        this.destoryAnima[1].setPath(Setting.BREAK_RIGHT_IMG);
+        this.destoryAnima[1].loadImg();
     }
 
     // -------------------------------------------------------------------------
@@ -61,7 +77,19 @@ public class TapNode {
     // -------------------------------------------------------------------------
     // Methods
     // -------------------------------------------------------------------------
-    public void destroy() {
+    public void goodDestroy() {
+        this.tapPane.getChildren().remove(this.imgV);
+        this.timeline.stop();
+
+        ImageView temp = new ImageView();
+        temp.setX(200);
+        temp.setY(450);
+        tapPane.getChildren().add(temp);
+        int typeCode = this.baseNode.type[2] == 1 ? 0 : 1; // TODO: new img name control
+        destoryAnima[typeCode].playOnceAndDestory(tapPane, temp);
+    }
+
+    public void badDestroy() {
         this.tapPane.getChildren().remove(this.imgV);
         this.timeline.stop();
     }
@@ -86,7 +114,6 @@ public class TapNode {
             @Override
             public void handle(ActionEvent event) {
                 // System.out.println("test: in end timeline");
-            
                 tapPane.getChildren().remove(imgV);
                 imgV = null;    // clear
             }

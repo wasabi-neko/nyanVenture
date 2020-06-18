@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
@@ -15,53 +17,57 @@
                   <Pane fx:id="roadPane" prefHeight="900.0" prefWidth="1440.0" />
                </children>
             </Pane>
-            <Pane fx:id="startLowerPane" layoutX="1340.0" layoutY="550.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: blue;" />
-            <Pane fx:id="startUpperPane" layoutX="1340.0" layoutY="400.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: black;" />
-            <Pane fx:id="endPane" layoutX="300.0" layoutY="550.0" prefHeight="100.0" prefWidth="10.0" style="-fx-background-color: blue;" />
             <Pane fx:id="playerPane" layoutX="100.0" layoutY="480.0" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Pane fx:id="charaPane" prefHeight="200.0" prefWidth="200.0" />
                   <Pane fx:id="effectPane" layoutX="150.0" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </Pane>
+            <Pane fx:id="startLowerPane" layoutX="1440.0" layoutY="550.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: blue;" visible="false" />
+            <Pane fx:id="startUpperPane" layoutX="1440.0" layoutY="400.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: black;" visible="false" />
+            <Pane fx:id="endPane" layoutX="300.0" layoutY="550.0" prefHeight="100.0" prefWidth="10.0" />
             <Pane fx:id="popoutPane" layoutX="300.0" layoutY="350.0" prefHeight="200.0" prefWidth="300.0" />
             <Pane fx:id="holdPane" disable="true" prefHeight="900.0" prefWidth="1440.0" />
             <Pane fx:id="tapPane" prefHeight="900.0" prefWidth="1440.0" />
-            <Button fx:id="btEsc" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onEscPressed" text="ESC">
-               <font>
-                  <Font size="50.0" />
-               </font>
-            </Button>
+            <Pane onMouseClicked="#onEscPressed" onMouseEntered="#onMouseHoverESC" onMouseExited="#onMouseExitESC" prefHeight="150.0" prefWidth="150.0">
+               <children>
+                  <ImageView fx:id="escButton" fitHeight="150.0" fitWidth="150.0" opacity="0.6" preserveRatio="true" smooth="false">
+                     <image>
+                        <Image url="@gamelpay/stop.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
          </children>
       </Pane>
-      <Pane fx:id="finishPane" prefHeight="900.0" prefWidth="1440.0" visible="false">
+      <Pane fx:id="finishPane" prefHeight="900.0" prefWidth="1440.0" style="-fx-background-color: gray;" visible="false">
          <children>
-            <Label fx:id="perfectLabel" layoutX="150.0" layoutY="422.0" text="Perfect : {%d}">
+            <Label fx:id="perfectLabel" layoutX="150.0" layoutY="422.0" text="Perfect : {%d}" textFill="WHITE">
                <font>
                   <Font size="50.0" />
                </font>
             </Label>
-            <Label fx:id="greatLabel" layoutX="142.0" layoutY="567.0" text="Great : {%d}">
+            <Label fx:id="greatLabel" layoutX="142.0" layoutY="567.0" text="Great : {%d}" textFill="WHITE">
                <font>
                   <Font size="50.0" />
                </font>
             </Label>
-            <Label fx:id="badlLabel" layoutX="154.0" layoutY="688.0" text="Bad : {%d}">
+            <Label fx:id="badlLabel" layoutX="154.0" layoutY="688.0" text="Bad : {%d}" textFill="WHITE">
                <font>
                   <Font size="50.0" />
                </font>
             </Label>
-            <Label fx:id="missLabel" layoutX="142.0" layoutY="771.0" text="Miss :  {%d}">
+            <Label fx:id="missLabel" layoutX="142.0" layoutY="771.0" text="Miss :  {%d}" textFill="WHITE">
                <font>
                   <Font size="50.0" />
                </font>
             </Label>
-            <Label fx:id="scoreLabel" layoutX="500.0" layoutY="500.0" text="Score : {%d}">
+            <Label fx:id="scoreLabel" layoutX="500.0" layoutY="500.0" text="Score : {%d}" textFill="WHITE">
                <font>
                   <Font size="50.0" />
                </font>
             </Label>
-            <Label fx:id="accuracyLabel" layoutX="500.0" layoutY="600.0" text="Accuracy : {%d}">
+            <Label fx:id="accuracyLabel" layoutX="500.0" layoutY="600.0" text="Accuracy : {%d}" textFill="WHITE">
                <font>
                   <Font size="50.0" />
                </font>
@@ -79,7 +85,7 @@
          </children></Pane>
       <Pane fx:id="pausePane" prefHeight="900.0" prefWidth="1440.0" visible="false">
          <children>
-            <Pane opacity="0.3" prefHeight="900.0" prefWidth="1440.0" style="-fx-background-color: black;" />
+            <Pane opacity="0.5" prefHeight="900.0" prefWidth="1440.0" style="-fx-background-color: black;" />
             <Pane layoutX="420.0" layoutY="200.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;">
                <children>
                   <Button mnemonicParsing="false" onAction="#startGame" text="backGame">

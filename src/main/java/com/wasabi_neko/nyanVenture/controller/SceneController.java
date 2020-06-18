@@ -35,31 +35,16 @@ public class SceneController {
     }
 
     public void changeScene(String sceneName) {
-        // if (currentScene != null) {
-        //     xSize = currentScene.getWidth();
-        //     ySize = currentScene.getHeight();
-        // }
         Parent root = loadFXML(sceneName);
         
         if (this.currentScene == null) {
-            // System.out.println(this.winWidth + "," + this.winHight);
             Scene newScene = new Scene(root);
 
             this.currentScene = newScene;
             this.mainStage.setScene(currentScene);
-            // this.mainStage.setWidth(3000);
-            // this.mainStage.setHeight(2000);
+            this.mainStage.setFullScreen(true); 
         }
-
-        // double scaleFactor = ( winHight / fullHight);
-        // double scaleFactor = 0.75;
-        // Scale scale = new Scale(scaleFactor, scaleFactor);
-        // scale.setPivotX(0);
-        // scale.setPivotY(0);
-
-        // root.getTransforms().setAll(scale);
-        // root.setPrefWidth(1920  / scaleFactor);
-        // root.setPrefHeight(1080 / scaleFactor);
+        
         
         this.mainStage.getScene().setRoot(root);
         this.mainStage.getScene().getRoot().requestFocus();

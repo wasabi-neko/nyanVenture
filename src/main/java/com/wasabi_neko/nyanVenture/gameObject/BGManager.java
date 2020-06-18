@@ -16,7 +16,7 @@ import javafx.util.Duration;
 public class BGManager {
     public Pane bgPane;
     public Pane roadPane;
-    public final long bgTime = 10000;
+    public final long bgTime = 20000;
     public final long roadTime = 5000;
 
 
@@ -35,6 +35,11 @@ public class BGManager {
         this.bgImgV2 = new ImageView();
         this.roadImgV1 = new ImageView();
         this.roadImgV2 = new ImageView();
+
+        // this.bgImgV1.setCache(true);
+        // this.bgImgV2.setCache(true);
+        // this.roadImgV1.setCache(true);
+        // this.roadImgV2.setCache(true);
         
         this.bgPane.getChildren().addAll(bgImgV1, bgImgV2);
         this.roadPane.getChildren().addAll(roadImgV1, roadImgV2);

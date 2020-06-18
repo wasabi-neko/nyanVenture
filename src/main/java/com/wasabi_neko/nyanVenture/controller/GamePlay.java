@@ -19,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -41,10 +42,9 @@ public class GamePlay implements Initializable {
     @FXML Pane startLowerPane;
     @FXML Pane startUpperPane;
     @FXML Pane endPane;
-    
-    @FXML Button btEsc;
-    
+
     // Pause
+    @FXML ImageView escButton;
     @FXML Pane pausePane;
 
     // Finish
@@ -126,13 +126,13 @@ public class GamePlay implements Initializable {
             }
         }
 
-        // System.out.println("tap:" + Arrays.toString(this.isTapKey));
-        // System.out.println("hold:" + Arrays.toString(isHoldKey));
+        if (key == KeyCode.P) {
+            this.onBackPressed();
+        }
 
         if (tapped) {
             this.gameManager.update();
             this.gameManager.tapCheck(this.isTapKey); // TODO: edit tap arr method
-            // this.gameManager.getScore().tempPrint(); //TODO: temp
         }
 
         // reset isTap
@@ -150,8 +150,14 @@ public class GamePlay implements Initializable {
                 this.isTapKey[i] = false;
             }
         }
-        // System.out.println("tap:" + Arrays.toString(this.isTapKey));
-        // System.out.println("hold:" + Arrays.toString(isHoldKey));
+    }
+
+    public void onMouseHoverESC() {
+        this.escButton.setOpacity(1);
+    }
+
+    public void onMouseExitESC() {
+        this.escButton.setOpacity(0.6);
     }
 
     // -------------------------------------------------------------------------

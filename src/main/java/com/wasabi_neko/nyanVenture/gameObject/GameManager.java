@@ -2,8 +2,12 @@ package com.wasabi_neko.nyanVenture.gameObject;
 
 import javax.print.event.PrintJobListener;
 
+import com.wasabi_neko.nyanVenture.App;
 import com.wasabi_neko.nyanVenture.Setting;
 import com.wasabi_neko.nyanVenture.tool.FileManager;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 public class GameManager {
@@ -20,6 +24,7 @@ public class GameManager {
     private Pane tapPane, holdPane;
     private Pane tapPosPane, lowerPosPane, upperPosPane;
     private Pane popPane;
+    private ImageView targetImgV;
 
     public GameManager() {
         // no thing
@@ -86,6 +91,12 @@ public class GameManager {
 
             // Load bg
             this.bgManager.loadImg();
+
+            Image temp = new Image(App.class.getResourceAsStream(Setting.TARGET_IMG_PATH), 128, 128, true, false);
+            this.targetImgV = new ImageView(temp);
+            this.tapPosPane.getChildren().add(this.targetImgV);
+            this.targetImgV.setX(-16);
+            this.targetImgV.setY(-16);
 
             return true;
         } catch (Exception e) {
@@ -170,6 +181,7 @@ public class GameManager {
 
             if (diff < Setting.BAD_TIME) {
                 // tap! OwO
+                int breakType = 1;
                 
                 if (newNode.compareType(tapArr)) {
                     // correct type
@@ -183,14 +195,16 @@ public class GameManager {
                     } else if (diff <= Setting.BAD_TIME) {
                         this.popouts.popBad();
                         this.score.addBad();
+                        breakType = 0;
                     } 
                 } else {
                     // wrong type => bad
                     this.popouts.popBad();
                     this.score.addBad();
+                    breakType = 0;
                 }
 
-                this.sheet.destoryNewestTap();
+                this.sheet.destoryNewestTap(breakType);
             } else {
                 // ignore
                 System.out.println("ignore");

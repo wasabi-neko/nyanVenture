@@ -4,6 +4,9 @@ import com.wasabi_neko.nyanVenture.*;
 
 import java.util.PriorityQueue;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 import javafx.scene.image.*;
 
 public class Sheet {
@@ -19,6 +22,7 @@ public class Sheet {
 
     private Image[] tapImg;
     private Image[] holdImg;
+    private MediaPlayer mediaPLayer;
 
     public SheetData sheetData;
     private PriorityQueue<TapNode> tapList;
@@ -38,6 +42,8 @@ public class Sheet {
         this.holdImg = new Image[2];
         this.loadImage();
 
+        // this.loadMusic();
+        
         this.startX = this.startLowerPane.layoutXProperty().intValue();
         this.lowerY = this.startLowerPane.layoutYProperty().intValue();
         this.upperY = this.startUpperPane.layoutYProperty().intValue();
@@ -58,18 +64,21 @@ public class Sheet {
     public void reset() {
         this.stop();
         this.sheetData.reset();
+        // this.mediaPLayer.seek(Duration.millis(0));
     }
 
     public void pause() {
+        // this.mediaPLayer.pause();
         for (TapNode node : this.tapList) {
             node.timeline.pause();
         }
     }
 
     public void stop() {
+        // this.mediaPLayer.stop();
         for (TapNode node : this.tapList) {
             node.timeline.stop();
-            node.destroy();
+            node.badDestroy();
         }
     }
 
@@ -77,6 +86,7 @@ public class Sheet {
         for (TapNode node : this.tapList) {
             node.timeline.play();
         }
+        // this.mediaPLayer.play();
     }
 
     // -------------------------------------------------------------------------
@@ -90,9 +100,13 @@ public class Sheet {
         this.tapList.poll();
     }
 
-    public void destoryNewestTap() {
+    public void destoryNewestTap(int breakType) {
         TapNode node = this.tapList.poll(); // remove form list
-        node.destroy(); // remove form pane
+        if (breakType == 1) {
+            node.goodDestroy();
+        } else if (breakType == 0) {
+            node.badDestroy();
+        }
     }
 
     /**
@@ -142,12 +156,25 @@ public class Sheet {
             String node1Path = Setting.IMG_NODE1_PATH;
             String node0Path = Setting.IMG_NODE0_PATH;
 
-            this.tapImg[0] = new Image(App.class.getResourceAsStream(node0Path), (double) 100, (double) 100, true,
+            this.tapImg[0] = new Image(App.class.getResourceAsStream(node0Path), (double) 96, (double) 96, true,
                     false);
-            this.tapImg[1] = new Image(App.class.getResourceAsStream(node1Path), (double) 100, (double) 100, true,
+            this.tapImg[1] = new Image(App.class.getResourceAsStream(node1Path), (double) 96, (double) 96, true,
                     false);
         } catch (Exception e) {
             System.out.println("#Error:# no Image");
+            System.out.println(e);
+        }
+    }
+
+    private void loadMusic() {
+        try {
+            String path = String.format(Setting.MUSIC_PATH, 0);
+
+            Media media = new Media(path);
+            this.mediaPLayer = new MediaPlayer(media);
+        } catch (Exception e) {
+            System.out.println("#ERROR:# no music found");
+            System.out.println(e);
         }
     }
 }
