@@ -47,6 +47,17 @@ public class Score {
         currentComble = 0;
     }
 
+    public int getScore() {
+        return this.perfectTimes * 100 + this.greatTimes * 70 + this.badTimes * 30;
+    }
+
+    public double getAccuracy() {
+        double all = this.perfectTimes + this.greatTimes + this.badTimes + this.missTimes;
+        double hit = this.perfectTimes + this.greatTimes * 0.7 + this.badTimes * 0.3;
+
+        return hit / all;
+    }
+
     public void tempPrint() {
         System.out.printf("P:%d, G:%d, B:%d, M:%d\n", this.perfectTimes, this.greatTimes, this.badTimes, this.missTimes);
     }

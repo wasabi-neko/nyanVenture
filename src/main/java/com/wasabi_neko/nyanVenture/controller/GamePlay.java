@@ -31,57 +31,38 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 public class GamePlay implements Initializable {
-    @FXML
-    Pane rootPane;
+    @FXML Pane rootPane;
     // GamePlay
-    @FXML
-    Pane gamePlayPane;
-    @FXML
-    Pane bgPane;
-    @FXML
-    Pane roadPane;
+    @FXML Pane gamePlayPane;
+    @FXML Pane bgPane;
+    @FXML Pane roadPane;
     // -- player
-    @FXML
-    Pane playerPane;
-    @FXML
-    Pane charaPane;
-    @FXML
-    Pane effectPane;
+    @FXML Pane playerPane;
+    @FXML Pane charaPane;
+    @FXML Pane effectPane;
     // -- node
-    @FXML
-    Pane holdPane;
-    @FXML
-    Pane tapPane;
-    @FXML
-    Pane popoutPane;
-    @FXML
-    Pane startLowerPane;
-    @FXML
-    Pane startUpperPane;
-    @FXML
-    Pane endPane;
+    @FXML Pane holdPane;
+    @FXML Pane tapPane;
+    @FXML Pane popoutPane;
+    @FXML Pane startLowerPane;    
+    @FXML Pane startUpperPane;
+    @FXML Pane endPane;
+    @FXML Label comboText;
+    @FXML Label scoreText;
 
     // Pause
-    @FXML
-    ImageView escButton;
-    @FXML
-    Pane pausePane;
+    @FXML ImageView escButton;
+    @FXML Pane pausePane;
 
     // Finish
-    @FXML
-    Pane finishPane;
-    @FXML
-    Label perfectLabel;
-    @FXML
-    Label greatLabel;
-    @FXML
-    Label badlLabel;
-    @FXML
-    Label missLabel;
-    @FXML
-    Label scoreLabel;
-    @FXML
-    Label accuracyLabel;
+    @FXML Pane finishPane;
+    @FXML Label perfectLabel;
+    @FXML Label greatLabel;
+    @FXML Label badlLabel;
+    @FXML Label missLabel;
+    @FXML Label scoreLabel;
+    @FXML Label comboLable;
+    @FXML Label accuracyLabel;
 
     public GameManager gameManager;
     public Timeline updater;
@@ -92,7 +73,7 @@ public class GamePlay implements Initializable {
     private boolean[] isHoldKey;
 
     public ArrayList<BaseNode> recordArr;
-    public int sheetIndex = 1;
+    private static int sheetIndex = 1;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -106,7 +87,8 @@ public class GamePlay implements Initializable {
         this.gameManager.initBG(this.bgPane, this.roadPane);
 
         // == GameManager ==
-        if (this.gameManager.loadGame(this.sheetIndex) == false) {
+        System.out.println("init");
+        if (this.gameManager.loadGame(GamePlay.sheetIndex) == false) {
             this.onBackPressed();
         }
 
@@ -130,6 +112,17 @@ public class GamePlay implements Initializable {
         startGame();
         this.onAgainPressed();
     }
+    // -------------------------------------------------------------------------
+    // Setter
+    // -------------------------------------------------------------------------
+    public static int getSheetIndex() {
+        return GamePlay.sheetIndex;
+    }
+
+    public static void setSheetIndex(int _index) {
+        GamePlay.sheetIndex = _index;
+    }
+
 
     // -------------------------------------------------------------------------
     // Game Loops and Updater
@@ -138,6 +131,12 @@ public class GamePlay implements Initializable {
         @Override
         public void handle(ActionEvent event) {
             gameManager.update();
+            if (gameManager.score.currentComble >= 5) {
+                comboText.setText("{" + gameManager.score.currentComble + "}");
+            } else {
+                comboText.setText("");
+            }
+            scoreText.setText("[" + gameManager.score.getScore() + "]");
             if (gameManager.isFisnished()) {
                 finishGame();
             }
@@ -157,8 +156,19 @@ public class GamePlay implements Initializable {
             }
         }
 
+        if (key == KeyCode.RIGHT) {
+            this.gameManager.player.playAnimaHitR();
+        }
+        if (key == KeyCode.LEFT) {
+            this.gameManager.player.playAnimaHitL();
+        }
+
         if (key == KeyCode.P) {
             this.onBackPressed();
+        }
+
+        if (key == KeyCode.SPACE) {
+            this.onEscPressed();
         }
 
         if (tapped) {
@@ -274,20 +284,25 @@ public class GamePlay implements Initializable {
         this.greatLabel.setText("Great: "+score.greatTimes);
         this.badlLabel.setText("Bad: "+score.badTimes);
         this.missLabel.setText("Miss: "+score.missTimes);
+        this.scoreLabel.setText("Score: " + score.getScore());
+        this.comboLable.setText("MaxCombo: " + score.maxComble);
+        this.accuracyLabel.setText("Accuracy: " + score.getAccuracy());
 
         // TODO: save score data
-        // for (BaseNode node : this.recordArr) {
-        //     System.out.println(node);
-        // }
-
-        // this.recordArr.sort(Comparators.baseNode_startTime_CMP);
-        // SheetData data = new SheetData(this.recordArr, 81000);
-
-        // try {
-        //     FileManager.newSheetData(data, 1);
-        //     // FileManager.overWriteSheetData(data, 5);
-        // } catch (Exception e) {
-        //     System.out.println(e);
+        // if (GamePlay.sheetIndex == 0) {
+        //     for (BaseNode node : this.recordArr) {
+        //         System.out.println(node);
+        //     }
+    
+        //     this.recordArr.sort(Comparators.baseNode_startTime_CMP);
+        //     SheetData data = new SheetData(this.recordArr, 108000);
+    
+        //     try {
+        //         // FileManager.newSheetData(data, 2);
+        //         FileManager.overWriteSheetData(data, 2);
+        //     } catch (Exception e) {
+        //         System.out.println(e);
+        //     }
         // }
         this.updater.pause();
     }

@@ -28,12 +28,12 @@ public class Player {
     public int hp;
     public String currentAnimaState;
 
-    enum AnimaCode{RUN, JUMP, HIT, SLIDE};
+    enum AnimaCode{RUN, JUMP, HIT_L, HIT_R, SLIDE};
     
     private Timeline updater;
     private ImageView playerImgV, effectImgV;
     private Image[] currentAnima;
-    private Image[] runAnima, hurtAnima, hitAnima, jumpAnima;
+    private Image[] runAnima, hurtAnima, hitAnimaL, hitAnimaR, jumpAnima;
 
     private final double playerSize = 400;
     private int animaCounter;
@@ -55,7 +55,7 @@ public class Player {
         updater.setAutoReverse(true);
 
         KeyValue kv = null;
-        KeyFrame kf = new KeyFrame(Duration.millis(Setting.ANIMA_RATE), this.onUpdate, kv);
+        KeyFrame kf = new KeyFrame(Duration.millis(Setting.HIT_ANIMA_RATE), this.onUpdate, kv);
         updater.getKeyFrames().add(kf);
     }
 
@@ -69,6 +69,9 @@ public class Player {
     public void animaUpdate() {
         if (this.animaCounter >= this.currentAnima.length) {
             this.animaCounter = 0;
+            if (this.currentAnima != this.runAnima) {
+                this.currentAnima = this.runAnima;
+            }
         }
         this.playerImgV.setImage(this.currentAnima[this.animaCounter]);
         this.animaCounter += 1;
@@ -90,9 +93,16 @@ public class Player {
         this.updater.play();
     }
 
-    public void playAnimaHit() {
-        // 
+    public void playAnimaHitL() {
+        this.playAnimation(AnimaCode.HIT_L.toString());
+        this.updater.play();
     }
+
+    public void playAnimaHitR() {
+        this.playAnimation(AnimaCode.HIT_R.toString());
+        this.updater.play();
+    }
+    
 
     public void playAnimaHurt() {
         // 
@@ -109,6 +119,12 @@ public class Player {
             case "RUN":
                 this.currentAnima = runAnima;
                 break;
+            case "HIT_L":
+                this.currentAnima = hitAnimaL;
+                break;
+            case "HIT_R":
+                this.currentAnima = hitAnimaR;
+                break;
             default:
                 this.currentAnima = runAnima;
                 break;
@@ -121,10 +137,20 @@ public class Player {
     public void loadImg() {
         try {
             
-            this.runAnima = new Image[4];
-            for (int i = 0; i < 4; i++) {
+            this.runAnima = new Image[8];
+            for (int i = 0; i < this.runAnima.length; i++) {
                 String runPath = String.format(Setting.PLAYER_ANIMATION_PATH, AnimaCode.RUN.toString(), i);
                 this.runAnima[i] = new Image(App.class.getResourceAsStream(runPath), this.playerSize, this.playerSize, true, false);
+            }
+            this.hitAnimaR = new Image[4];
+            for (int i = 0; i < 4; i++) {
+                String runPath = String.format(Setting.PLAYER_ANIMATION_PATH, AnimaCode.HIT_R.toString(), i);
+                this.hitAnimaR[i] = new Image(App.class.getResourceAsStream(runPath), this.playerSize, this.playerSize, true, false);
+            }
+            this.hitAnimaL = new Image[4];
+            for (int i = 0; i < 4; i++) {
+                String runPath = String.format(Setting.PLAYER_ANIMATION_PATH, AnimaCode.HIT_L.toString(), i);
+                this.hitAnimaL[i] = new Image(App.class.getResourceAsStream(runPath), this.playerSize, this.playerSize, true, false);
             }
 
         } catch (Exception e) {

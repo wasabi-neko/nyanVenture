@@ -4,6 +4,7 @@ import javax.print.event.PrintJobListener;
 
 import com.wasabi_neko.nyanVenture.App;
 import com.wasabi_neko.nyanVenture.Setting;
+import com.wasabi_neko.nyanVenture.controller.GamePlay;
 import com.wasabi_neko.nyanVenture.tool.FileManager;
 
 import javafx.scene.image.Image;
@@ -108,6 +109,10 @@ public class GameManager {
 
     public void resetGame() {
         long timeBiass = 300;
+
+        if (GamePlay.getSheetIndex() == 2) {
+            timeBiass = 0;
+        }
 
         this.gameStatus = 0;
         this.startTime = -1;

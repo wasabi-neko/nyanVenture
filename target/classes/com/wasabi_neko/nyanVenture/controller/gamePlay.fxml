@@ -29,6 +29,16 @@
             <Pane fx:id="popoutPane" layoutX="300.0" layoutY="350.0" prefHeight="200.0" prefWidth="300.0" />
             <Pane fx:id="holdPane" disable="true" prefHeight="900.0" prefWidth="1440.0" />
             <Pane fx:id="tapPane" prefHeight="900.0" prefWidth="1440.0" />
+            <Label fx:id="comboText" layoutX="550.0" layoutY="300.0" text="combo" textAlignment="CENTER" textFill="#ffb8e5" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Sans Forgetica Regular" size="80.0" />
+               </font>
+            </Label>
+            <Label fx:id="scoreText" layoutX="1000.0" layoutY="20.0" text="score" textAlignment="CENTER" textFill="#29ffc6" textOverrun="CENTER_ELLIPSIS">
+               <font>
+                  <Font name="Sans Forgetica Regular" size="96.0" />
+               </font>
+            </Label>
             <Pane onMouseClicked="#onEscPressed" onMouseEntered="#onMouseHoverESC" onMouseExited="#onMouseExitESC" prefHeight="150.0" prefWidth="150.0">
                <children>
                   <ImageView fx:id="escButton" fitHeight="150.0" fitWidth="150.0" opacity="0.6" preserveRatio="true" smooth="false">
@@ -40,7 +50,7 @@
             </Pane>
          </children>
       </Pane>
-      <Pane fx:id="finishPane" prefHeight="900.0" prefWidth="1440.0" style="-fx-background-color: gray;" visible="false">
+      <Pane fx:id="finishPane" prefHeight="900.0" prefWidth="1440.0" style="-fx-background-color: black;" visible="false">
          <children>
             <Label fx:id="perfectLabel" layoutX="150.0" layoutY="422.0" text="Perfect : {%d}" textFill="WHITE">
                <font>
@@ -62,22 +72,27 @@
                   <Font size="50.0" />
                </font>
             </Label>
-            <Label fx:id="scoreLabel" layoutX="500.0" layoutY="500.0" text="Score : {%d}" textFill="WHITE">
+            <Label fx:id="scoreLabel" layoutX="500.0" layoutY="420.0" text="Score : {%d}" textFill="WHITE">
                <font>
                   <Font size="50.0" />
                </font>
             </Label>
-            <Label fx:id="accuracyLabel" layoutX="500.0" layoutY="600.0" text="Accuracy : {%d}" textFill="WHITE">
+            <Label fx:id="comboLable" layoutX="500.0" layoutY="560.0" text="Max Combo" textFill="WHITE">
                <font>
                   <Font size="50.0" />
                </font>
             </Label>
-            <Button layoutX="1150.0" layoutY="750.0" mnemonicParsing="false" onAction="#onAgainPressed" text="Again">
+            <Label fx:id="accuracyLabel" layoutX="500.0" layoutY="700.0" text="Accuracy : {%d}" textFill="WHITE">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </Label>
+            <Button layoutX="1150.0" layoutY="750.0" mnemonicParsing="false" onAction="#onAgainPressed" stylesheets="@darkTheme.css" text="Again">
                <font>
                   <Font size="60.0" />
                </font>
             </Button>
-            <Button layoutX="850.0" layoutY="750.0" mnemonicParsing="false" onAction="#onBackPressed" text="Back">
+            <Button layoutX="850.0" layoutY="750.0" mnemonicParsing="false" onAction="#onBackPressed" stylesheets="@darkTheme.css" text="Back">
                <font>
                   <Font size="60.0" />
                </font>
@@ -86,19 +101,19 @@
       <Pane fx:id="pausePane" prefHeight="900.0" prefWidth="1440.0" visible="false">
          <children>
             <Pane opacity="0.5" prefHeight="900.0" prefWidth="1440.0" style="-fx-background-color: black;" />
-            <Pane layoutX="420.0" layoutY="200.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;">
+            <Pane layoutX="420.0" layoutY="200.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: gray;">
                <children>
-                  <Button mnemonicParsing="false" onAction="#startGame" text="backGame">
+                  <Button mnemonicParsing="false" onAction="#startGame" stylesheets="@darkTheme.css" text="backGame">
                      <font>
                         <Font size="57.0" />
                      </font>
                   </Button>
-                  <Button layoutX="273.0" layoutY="40.0" mnemonicParsing="false" onAction="#onBackPressed" text="back to menu">
+                  <Button layoutY="120.0" mnemonicParsing="false" onAction="#onBackPressed" stylesheets="@darkTheme.css" text="back to menu">
                      <font>
                         <Font size="60.0" />
                      </font>
                   </Button>
-                  <Button layoutX="16.0" layoutY="194.0" mnemonicParsing="false" onAction="#onAgainPressed" text="Again">
+                  <Button layoutY="250.0" mnemonicParsing="false" onAction="#onAgainPressed" stylesheets="@darkTheme.css" text="Again">
                      <font>
                         <Font size="66.0" />
                      </font>

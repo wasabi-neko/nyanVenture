@@ -4,7 +4,8 @@ public class Setting {
     
     public static final long FIXUPDATE_RATE = 10;
     public static final long BREAK_ANIMA_RATE = 20;
-    public static final long ANIMA_RATE = 50;      // 10 frame per second
+    public static final long RUN_ANIMA_RATE = 50;
+    public static final long HIT_ANIMA_RATE = 25;
     /**
      * miss | bad | great | perfect | great | bad | no in range
      *     -150  -100   -50   0     50     100   150

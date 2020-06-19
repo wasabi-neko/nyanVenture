@@ -1,6 +1,7 @@
 package com.wasabi_neko.nyanVenture.gameObject;
 
 import com.wasabi_neko.nyanVenture.*;
+import com.wasabi_neko.nyanVenture.controller.GamePlay;
 
 import java.util.PriorityQueue;
 import javafx.scene.layout.Pane;
@@ -171,7 +172,7 @@ public class Sheet {
 
     private void loadMusic() {
         try {
-            String path = String.format(Setting.MUSIC_PATH, 1);
+            String path = String.format(Setting.MUSIC_PATH, GamePlay.getSheetIndex());
             // File file = new File("/Users/jungan/Documents/GitHub/nyanVenture/00.wav");
 
             Media media = new Media(App.class.getResource(path).toExternalForm());

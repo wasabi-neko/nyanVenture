@@ -30,9 +30,19 @@ public class MainMenu implements Initializable {
     }
 
     @FXML
-    private void onPlayPressed() throws IOException {
-        // TODO: add loading
+    private void onPlay1() throws IOException {
+        GamePlay.setSheetIndex(1);
         App.sceneController.changeScene("gamePlay");
+    }
+
+    public void onPlay2() throws IOException {
+        GamePlay.setSheetIndex(2);
+        App.sceneController.changeScene("gamePlay");
+    }
+
+    public void onRecord() throws IOException {
+        GamePlay.setSheetIndex(0);
+        App.sceneController.changeScene("gameplay");
     }
 
     @FXML

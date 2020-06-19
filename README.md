@@ -2,7 +2,8 @@
 a simple rhythm game for collage final project; using javafx
 
 
-test music: 「最終鬼畜妹フランドール・S」
+test music1: 「最終鬼畜妹フランドール・S」
+test music2: [【HowHow】ダダダダ天使【How音未來】](https://www.youtube.com/watch?v=3mWMmipuCko)
 
 ## TODOs
 - chara anima
