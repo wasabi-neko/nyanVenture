@@ -79,7 +79,7 @@ public class BGManager {
     private EventHandler<ActionEvent> bgPlayAgain = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-            System.out.println("bg end");
+            // System.out.println("bg end");
             bgImgV1.setX(0);
             bgImgV2.setX(2875);
             bgTimeline1.stop();
@@ -91,7 +91,7 @@ public class BGManager {
     private EventHandler<ActionEvent> roadPlayAgain = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-            System.out.println("bg end");
+            // System.out.println("bg end");
             roadImgV1.setX(0);
             roadImgV2.setX(2875);
             fgTimeline1.stop();

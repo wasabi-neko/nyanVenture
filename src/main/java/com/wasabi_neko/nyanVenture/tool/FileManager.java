@@ -34,7 +34,7 @@ public class FileManager {
         return data;
     }
 
-    static void overWriteSheetData(SheetData data, int index) throws IOException {
+    public static void overWriteSheetData(SheetData data, int index) throws IOException {
         String fileName = String.format(SHEETDATA_NAME, index);
         File file = new File(fileName);
 
@@ -47,7 +47,7 @@ public class FileManager {
         }
     }
 
-    static void newSheetData(SheetData data ,int index) throws IOException {
+    public static void newSheetData(SheetData data ,int index) throws IOException {
         String fileName = String.format(SHEETDATA_NAME, index);
         File file = new File(fileName);
 
@@ -60,7 +60,7 @@ public class FileManager {
         }
     }
 
-    static void  writeData(SheetData data, File file) throws IOException {
+    private static void writeData(SheetData data, File file) throws IOException {
         try (
             FileOutputStream fileout = new FileOutputStream(file);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileout);

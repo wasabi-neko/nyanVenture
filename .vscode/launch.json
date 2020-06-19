@@ -23,7 +23,7 @@
             "request": "launch",
             "mainClass": "com.wasabi_neko.nyanVenture.App",
             "projectName": "nyanVenture",
-            "vmArgs": "--module-path=/Users/jungan/MyDevelop/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
+            "vmArgs": "--module-path=/Users/jungan/MyDevelop/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml,javafx.media",
         },
         {
             "type": "java",
@@ -31,7 +31,7 @@
             "request": "launch",
             "mainClass": "com.wasabi_neko.nyanVenture.tool.TempMain",
             "projectName": "nyanVenture",
-            "vmArgs": "--module-path=/Users/jungan/MyDevelop/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml",
+            "vmArgs": "--module-path=/Users/jungan/MyDevelop/javafx-sdk-11.0.2/lib --add-modules javafx.controls,javafx.fxml,javafx.media",
         }
     ]
 }

@@ -84,9 +84,10 @@ public class PngAnima {
                 pane.getChildren().remove(imgV);
                 imgV = null;
                 oneceTimeline.stop();
+            } else {
+                imgV.setImage(imgArr[animaCounter]);
+                animaCounter += 1;
             }
-            imgV.setImage(imgArr[animaCounter]);
-            animaCounter += 1;
         }
     };
 

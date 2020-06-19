@@ -2,6 +2,8 @@
 a simple rhythm game for collage final project; using javafx
 
 
+test music: 「最終鬼畜妹フランドール・S」
+
 ## TODOs
 - chara anima
 - jump

@@ -14,7 +14,7 @@ import com.wasabi_neko.nyanVenture.gameObject.SheetData;
 public class TempMain {
     static ArrayList<BaseNode> tempList;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         
         // try {
         //     File myObj = new File("javaTestFile.txt");
@@ -28,34 +28,21 @@ public class TempMain {
         //     e.printStackTrace();
         //   }
 
+        // SheetData data = FileManager.getSheetData(5);
 
         tempList = new ArrayList<>();
-        
-        addNode(2000, 2000, 0);
-        addNode(3000, 2000, 0);
-        addNode(3500, 2000, 0);
-        addNode(4000, 2000, 0);
-        addNode(4200, 2000, 1);
-        addNode(4300, 2000, 0);
-        addNode(5000, 2000, 1);
-        addNode(5500, 2000, 1);
-        addNode(6000, 2000, 0);
-        addNode(6500, 2000, 0);
-        addNode(7000, 2000, 1);
-        addNode(9000, 2000, 1);
-        addNode(8000, 2000, 0);
-        addNode(9500, 2000, 1);
+
 
         tempList.sort(Comparators.baseNode_startTime_CMP);
         for (BaseNode baseNode : tempList) {
             System.out.println(baseNode);
         }
 
-        SheetData data = new SheetData(tempList, 14000);
+        SheetData data = new SheetData(tempList, 81000);
 
         try {
             FileManager.newSheetData(data, 0);
-            // FileManager.overWriteSheetData(data, 1);
+            // FileManager.overWriteSheetData(data, 0);
         } catch(IOException e) {
             System.out.println("in main");
             System.out.println(e);

@@ -58,6 +58,10 @@ public class SheetData implements Serializable {
         }
     }
 
+    public List<BaseNode> getNodeList() {
+        return this.nodeList;
+    }
+
     // public void tempPrint() {
     //     if ( !this.nodeList.isEmpty() ) {
     //         for (BaseNode baseNode : this.nodeList) {

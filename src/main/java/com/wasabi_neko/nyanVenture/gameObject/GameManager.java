@@ -17,7 +17,7 @@ public class GameManager {
     public Popouts popouts;
     public BGManager bgManager;
     
-    private long startTime = 0;
+    public long startTime = 0;
     private long timePassed = 0;
     private int gameStatus;
 
@@ -107,9 +107,11 @@ public class GameManager {
     }
 
     public void resetGame() {
+        long timeBiass = 300;
+
         this.gameStatus = 0;
         this.startTime = -1;
-        this.timePassed = 0;
+        this.timePassed = timeBiass;
         this.score = new Score();
         this.sheet.reset();
     }
@@ -120,6 +122,7 @@ public class GameManager {
         this.sheet.play();
         this.player.playAnimaRun();
         this.bgManager.play();
+        System.out.println(this.timePassed);
     }
 
     public void pauseGame() {
@@ -135,6 +138,7 @@ public class GameManager {
         this.sheet.stop();
         this.player.stopAnima();
         this.bgManager.stop();
+        this.timePassed = 0;
     }
 
     // -------------------------------------------------------------------------
@@ -207,7 +211,7 @@ public class GameManager {
                 this.sheet.destoryNewestTap(breakType);
             } else {
                 // ignore
-                System.out.println("ignore");
+                // System.out.println("ignore");
             }
         }
     }

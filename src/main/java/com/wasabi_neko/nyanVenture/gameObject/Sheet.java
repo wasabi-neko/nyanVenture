@@ -42,7 +42,7 @@ public class Sheet {
         this.holdImg = new Image[2];
         this.loadImage();
 
-        // this.loadMusic();
+        this.loadMusic();
         
         this.startX = this.startLowerPane.layoutXProperty().intValue();
         this.lowerY = this.startLowerPane.layoutYProperty().intValue();
@@ -64,29 +64,32 @@ public class Sheet {
     public void reset() {
         this.stop();
         this.sheetData.reset();
-        // this.mediaPLayer.seek(Duration.millis(0));
     }
 
     public void pause() {
-        // this.mediaPLayer.pause();
         for (TapNode node : this.tapList) {
             node.timeline.pause();
         }
+        this.mediaPLayer.pause();
     }
 
     public void stop() {
-        // this.mediaPLayer.stop();
+        this.mediaPLayer.pause();
         for (TapNode node : this.tapList) {
             node.timeline.stop();
             node.badDestroy();
         }
+        this.mediaPLayer.stop();
+        this.mediaPLayer.seek(Duration.millis(0));
     }
 
     public void play() {
         for (TapNode node : this.tapList) {
             node.timeline.play();
         }
-        // this.mediaPLayer.play();
+        this.mediaPLayer.seek(new Duration(0));
+        this.mediaPLayer.play();
+        System.out.println("play music");
     }
 
     // -------------------------------------------------------------------------
@@ -168,10 +171,12 @@ public class Sheet {
 
     private void loadMusic() {
         try {
-            String path = String.format(Setting.MUSIC_PATH, 0);
+            String path = String.format(Setting.MUSIC_PATH, 1);
+            // File file = new File("/Users/jungan/Documents/GitHub/nyanVenture/00.wav");
 
-            Media media = new Media(path);
+            Media media = new Media(App.class.getResource(path).toExternalForm());
             this.mediaPLayer = new MediaPlayer(media);
+            this.mediaPLayer.setVolume(0.1);
         } catch (Exception e) {
             System.out.println("#ERROR:# no music found");
             System.out.println(e);
