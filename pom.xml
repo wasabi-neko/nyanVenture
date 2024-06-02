@@ -33,7 +33,7 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-media</artifactId>
-      <version>14</version>
+      <version>17.0.10</version>
     </dependency>
     <!-- javafx -->
 
